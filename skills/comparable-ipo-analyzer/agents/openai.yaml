@@ -1,0 +1,4 @@
+interface:
+  display_name: "Comparable IPO Analyzer"
+  short_description: "Build auditable IPO peer sets and compare historical outcomes"
+  default_prompt: "Use $comparable-ipo-analyzer to build an auditable peer set and compare historical IPO outcomes."
