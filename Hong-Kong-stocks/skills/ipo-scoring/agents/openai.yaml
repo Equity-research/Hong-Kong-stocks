@@ -1,0 +1,4 @@
+interface:
+  display_name: "IPO Scoring"
+  short_description: "Score verified IPOs with confidence-aware comparison rules"
+  default_prompt: "Use $ipo-scoring to score verified IPO records and compare them with confidence-aware rankings."

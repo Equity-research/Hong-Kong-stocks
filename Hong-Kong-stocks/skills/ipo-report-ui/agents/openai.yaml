@@ -1,0 +1,4 @@
+interface:
+  display_name: "IPO Report UI"
+  short_description: "Polish IPO reports for clear visual review and mobile reading"
+  default_prompt: "Use $ipo-report-ui to redesign an IPO report with clear hierarchy, risk signals, and readable comparison tables."

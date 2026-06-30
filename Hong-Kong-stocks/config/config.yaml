@@ -1,0 +1,30 @@
+app:
+  timezone: Asia/Shanghai
+  lookahead_days: 14
+  log_level: INFO
+  database: data/hk_ipo.db
+
+http:
+  user_agent: "HKIPOResearchBot/0.1 (personal research; contact: configure-me@example.com)"
+  timeout_seconds: 30
+  min_interval_seconds: 2.0
+  retries: 3
+  respect_robots_txt: true
+
+sources:
+  hkex_main_board: "https://www2.hkexnews.hk/New-Listings/New-Listing-Information/Main-Board?sc_lang=zh-HK"
+  hkex_gem: "https://www2.hkexnews.hk/New-Listings/New-Listing-Information/GEM?sc_lang=zh-HK"
+  hkex_newly_listed: "https://www.hkex.com.hk/Services/Trading/Securities/Trading-News/Newly-Listed-Securities?sc_lang=zh-HK"
+  enable_gem: true
+
+paths:
+  raw_dir: data/raw
+  prospectus_dir: data/prospectuses
+  report_dir: reports
+  summary_csv: data/daily_ipo_summary.csv
+  manual_override_csv: data/manual_override.csv
+
+scoring:
+  max_data_missing_penalty: 8
+  hot_sectors: [AI, 半导体, 机器人, 创新药, 新能源, SaaS]
+

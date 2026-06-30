@@ -1,0 +1,4 @@
+interface:
+  display_name: "Allocation Probability"
+  short_description: "Estimate allocation odds and capital efficiency by tier"
+  default_prompt: "Use $allocation-probability to estimate allocation odds and capital efficiency across application sizes."
