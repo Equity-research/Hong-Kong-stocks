@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 import logging
-from datetime import date
+from datetime import date, datetime
 from pathlib import Path
 
 from hk_ipo_analyzer.analysis.scoring_model import ScoringModel
@@ -38,6 +38,7 @@ class DailyPipeline:
         if not skip_pdf:
             self._parse_prospectuses(records)
         self._derive_fields(records)
+        records = self._filter_current_offers(records, day)
         classifier = SectorClassifier()
         for record in records:
             if not record.value("sector"):
@@ -63,10 +64,58 @@ class DailyPipeline:
         return report
 
     @staticmethod
+    def _filter_current_offers(records: list[IPORecord], day: date) -> list[IPORecord]:
+        """只保留分析日仍在公开招股期内、且日期证据完整的记录。"""
+
+        active: list[IPORecord] = []
+        for record in records:
+            start = DailyPipeline._as_date(record.value("offer_start_date"))
+            end = DailyPipeline._as_date(record.value("offer_end_date"))
+            if start is None or end is None:
+                LOGGER.warning("排除未核实招股日期的记录：%s %s", record.stock_code, record.company_name)
+                continue
+            if start <= day <= end:
+                active.append(record)
+            else:
+                LOGGER.info(
+                    "排除非当日可申购记录：%s %s（%s 至 %s）",
+                    record.stock_code,
+                    record.company_name,
+                    start,
+                    end,
+                )
+        return active
+
+    @staticmethod
+    def _as_date(value) -> date | None:
+        if isinstance(value, datetime):
+            return value.date()
+        if isinstance(value, date):
+            return value
+        if isinstance(value, str):
+            try:
+                return date.fromisoformat(value.strip()[:10].replace("/", "-"))
+            except ValueError:
+                return None
+        return None
+
+    @staticmethod
     def _load_input(path: Path) -> list[IPORecord]:
         payload = json.loads(path.read_text(encoding="utf-8"))
         rows = payload if isinstance(payload, list) else payload.get("records", [])
-        return [IPORecord.from_dict(row) for row in rows]
+        records: list[IPORecord] = []
+        for row in rows:
+            if "verified_fields" not in row:
+                records.append(IPORecord.from_dict(row))
+                continue
+            record = IPORecord(str(row["stock_code"]).zfill(4), row["company_name"])
+            source_url = row.get("source_url")
+            source_name = row.get("source_name", "核验输入")
+            fetched_at = row.get("fetched_at")
+            for name, value in row["verified_fields"].items():
+                record.set_field(name, value, source_url, source_name, fetched_at)
+            records.append(record)
+        return records
 
     def _parse_prospectuses(self, records: list[IPORecord]) -> None:
         downloader = ProspectusDownloader(

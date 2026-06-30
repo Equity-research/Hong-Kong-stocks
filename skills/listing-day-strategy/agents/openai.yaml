@@ -1,0 +1,4 @@
+interface:
+  display_name: "Listing Day Strategy"
+  short_description: "Create listing-day plans with explicit risk limits"
+  default_prompt: "Use $listing-day-strategy to create an evidence-backed listing-day plan with explicit risk limits."

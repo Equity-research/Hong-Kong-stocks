@@ -39,10 +39,17 @@ def _notes(items: list[str]) -> str:
 
 
 def render_markdown(day: date, items: list[tuple[IPORecord, ScoreResult]]) -> str:
+    covered = sum(1 for record, _ in items if record.value("offer_start_date") and record.value("offer_end_date"))
+    high_confidence = sum(1 for _, score in items if score.confidence >= 0.8)
     lines = [
         f"# 港股新股打新日报 - {day.isoformat()}", "",
         "> 本报告采用确定性规则评分；缺失数据不获分且可能触发风险扣分。仅供研究，不构成投资建议。", "",
-        "## 今日可申购 / 即将申购新股总览", "",
+        "## 数据质量与口径", "",
+        f"- **当日真实可申购：{len(items)} 只**",
+        f"- 名单规则：仅保留 `招股开始日 ≤ {day.isoformat()} ≤ 招股截止日` 且日期来源可追溯的记录。",
+        f"- 招股日期覆盖：{covered}/{len(items)}；高置信度分析：{high_confidence}/{len(items)}。",
+        "- 暗盘尚未开始时保持缺失；孖展、中签率及估值没有可靠来源时不作推测。", "",
+        "## 今日可申购新股总览", "",
         "| 股票代码 | 公司名称 | 板块 | 招股日期 | 上市日期 | 入场费 | 发行价区间 | 融资倍率 | 基石占比 | 评分 | 建议 |",
         "| --- | --- | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | --- |",
     ]
@@ -140,6 +147,7 @@ def update_summary_csv(path: Path, day: date, items: list[tuple[IPORecord, Score
     new = pd.DataFrame(rows)
     if path.exists() and path.stat().st_size:
         old = pd.read_csv(path, dtype={"stock_code": str})
+        old = old[old["report_date"].astype(str) != day.isoformat()]
         frame = pd.concat([old, new], ignore_index=True)
         frame = frame.drop_duplicates(["report_date", "stock_code"], keep="last")
     else:

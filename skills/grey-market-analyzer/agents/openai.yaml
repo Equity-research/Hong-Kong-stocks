@@ -1,0 +1,4 @@
+interface:
+  display_name: "Grey Market Analyzer"
+  short_description: "Analyze verified grey-market prices, liquidity, and sentiment"
+  default_prompt: "Use $grey-market-analyzer to evaluate verified grey-market performance and short-term sentiment signals."

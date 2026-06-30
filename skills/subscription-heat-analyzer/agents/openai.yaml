@@ -1,0 +1,4 @@
+interface:
+  display_name: "Subscription Heat Analyzer"
+  short_description: "Track margin financing, subscription demand, and heat trends"
+  default_prompt: "Use $subscription-heat-analyzer to analyze timestamped margin, subscription, and market-attention data."
