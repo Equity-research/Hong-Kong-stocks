@@ -1,4 +1,0 @@
-interface:
-  display_name: "Valuation Analyzer"
-  short_description: "Assess IPO pricing against normalized peer valuation ranges"
-  default_prompt: "Use $valuation-analyzer to assess IPO valuation against verified peer multiples and scenario ranges."

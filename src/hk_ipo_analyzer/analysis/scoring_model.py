@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 from hk_ipo_analyzer.analysis.recommendation import apply_recommendation
 from hk_ipo_analyzer.models import IPORecord, ScoreResult
@@ -28,6 +28,7 @@ CORE_FIELDS = [
     "expected_oversubscription",
     "grey_market_return_pct",
     "news_heat_score",
+    "sector_break_even_rate",
 ]
 
 
@@ -41,14 +42,17 @@ def _band(value, bands: list[tuple[float, float]], default: float = 0.0) -> floa
 
 
 class ScoringModel:
-    """确定性评分。缺失字段不获分，并通过缺失风险进一步扣分。"""
+    """确定性评分。缺失字段不获分，并通过缺失风险进一步扣分。v2 新增保荐人历史、行业破发率维度。"""
 
     def __init__(self, hot_sectors: list[str] | None = None, max_missing_penalty: int = 8):
         self.hot_sectors = set(hot_sectors or [])
         self.max_missing_penalty = max_missing_penalty
 
     def score(self, r: IPORecord) -> ScoreResult:
-        explanations: dict[str, list[str]] = {key: [] for key in ("fundamentals", "sector", "offer_structure", "cornerstone", "market_heat", "risk")}
+        explanations: dict[str, list[str]] = {
+            key: [] for key in ("fundamentals", "sector", "offer_structure",
+                                 "cornerstone", "market_heat", "risk")
+        }
         fundamentals = self._fundamentals(r, explanations["fundamentals"])
         sector = self._sector(r, explanations["sector"])
         offer = self._offer(r, explanations["offer_structure"])
@@ -86,8 +90,10 @@ class ScoringModel:
         growth = _band(r.value("industry_growth_pct"), [(20, 4), (10, 3), (3, 2), (0, 1)])
         policy = max(-3, min(3, float(r.value("policy_score", 0) or 0)))
         peers = _band(r.value("peer_median_first_day_return_pct"), [(20, 3), (5, 2), (0, 1)])
-        notes.append(f"赛道{hot:g}、行业空间{growth:g}、政策{policy:g}、近期同行{peers:g}")
-        return max(0, min(15, hot + growth + policy + peers))
+        break_even = r.value("sector_break_even_rate")
+        break_score = 2 if break_even is not None and break_even < 30 else (1 if break_even is not None else 0)
+        notes.append(f"赛道{hot:g}、行业空间{growth:g}、政策{policy:g}、近期同行{peers:g}、破发率评分{break_score:g}")
+        return max(0, min(15, hot + growth + policy + peers + break_score))
 
     def _offer(self, r: IPORecord, notes: list[str]) -> float:
         size = r.value("offer_size_hkd")
@@ -97,7 +103,7 @@ class ScoringModel:
         market_cap = r.value("market_cap_hkd")
         float_score = 3 if market_cap is not None and market_cap >= 2e9 else (1 if market_cap is not None else 0)
         greenshoe = 2 if r.value("greenshoe") is True else 0
-        sponsor = max(0, min(2, float(r.value("sponsor_quality_score", 0) or 0)))
+        sponsor = max(0, min(3, float(r.value("sponsor_quality_score", 0) or 0)))
         valuation = max(-3, min(2, float(r.value("valuation_score", 0) or 0)))
         notes.append(f"规模{scale:g}、公开发售{public_score:g}、流通结构{float_score:g}、绿鞋{greenshoe:g}、保荐人{sponsor:g}、定价{valuation:g}")
         return max(0, min(15, scale + public_score + float_score + greenshoe + sponsor + valuation))
@@ -128,12 +134,16 @@ class ScoringModel:
         mapping: dict[str, float] = {
             "持续亏损": 5, "收入大幅波动": 3, "客户高度集中": 3,
             "估值明显偏贵": 5, "监管风险": 5, "诉讼合规": 5,
-            "研发失败": 3, "冷门小票": 4,
+            "研发失败": 3, "冷门小票": 4, "行业高破发率": 3,
         }
         for tag in r.risk_tags:
             if tag in mapping:
                 deductions += mapping[tag]
                 notes.append(f"{tag} -{mapping[tag]:g}")
+        break_even = r.value("sector_break_even_rate")
+        if break_even is not None and break_even > 50 and "行业高破发率" not in r.risk_tags:
+            deductions += mapping["行业高破发率"]
+            notes.append(f"行业破发率{break_even}%，-{mapping['行业高破发率']:g}")
         missing = round(min(self.max_missing_penalty, missing_ratio * self.max_missing_penalty), 1)
         if missing:
             deductions += missing

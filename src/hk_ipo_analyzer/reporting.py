@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 from datetime import date
 from pathlib import Path
@@ -36,6 +36,28 @@ def _money(value: Any) -> str:
 
 def _notes(items: list[str]) -> str:
     return "；".join(items) if items else "无可用数据"
+
+
+def _score_class(total: float) -> str:
+    if total >= 85:
+        return "positive"
+    if total >= 65:
+        return "neutral"
+    if total >= 55:
+        return "caution"
+    return "high-risk"
+
+
+def _score_color(total: float) -> str:
+    if total >= 85:
+        return "#22c55e"
+    if total >= 75:
+        return "#84cc16"
+    if total >= 65:
+        return "#eab308"
+    if total >= 55:
+        return "#f97316"
+    return "#ef4444"
 
 
 def render_markdown(day: date, items: list[tuple[IPORecord, ScoreResult]]) -> str:
@@ -124,10 +146,156 @@ def render_markdown(day: date, items: list[tuple[IPORecord, ScoreResult]]) -> st
     return "\n".join(lines)
 
 
+def render_html(day: date, items: list[tuple[IPORecord, ScoreResult]]) -> str:
+    total = len(items)
+    high_score = sum(1 for _, s in items if s.total >= 75)
+    hot = max(items, key=lambda x: x[0].value("margin_multiple") or 0) if items else items[0] if items else None
+    high_risk = max(items, key=lambda x: x[1].risk_deduction) if items else items[0] if items else None
+    covered = sum(1 for r, _ in items if r.value("offer_start_date") and r.value("offer_end_date"))
+    high_conf = sum(1 for _, s in items if s.confidence >= 0.8)
+
+    rows_html = ""
+    for r, s in items:
+        score_color = _score_color(s.total)
+        rows_html += f"""
+            <tr>
+                <td>{r.stock_code}</td>
+                <td class="name-col">{r.company_name}</td>
+                <td>{_fmt(r.value('sector'))}</td>
+                <td><span class="score-badge" style="background:{score_color}">{s.total:.0f}</span></td>
+                <td>{s.confidence:.0%}</td>
+                <td>{_money(r.value('entry_fee_hkd'))}</td>
+                <td>{_fmt(r.value('margin_multiple'), 'x')}</td>
+                <td>{_fmt(r.value('cornerstone_ratio'), '%')}</td>
+                <td class="rec-{_score_class(s.total)}">{s.recommendation}</td>
+            </tr>"""
+
+    detail_html = ""
+    for idx, (r, s) in enumerate(items, 1):
+        sc = _score_color(s.total)
+        detail_html += f"""
+        <details>
+            <summary>{idx}. {r.company_name}（{r.stock_code}）
+                <span class="score-badge" style="background:{sc}">{s.total:.0f}</span>
+                <small>{s.recommendation}</small>
+            </summary>
+            <div class="detail-grid">
+                <div>
+                    <h4>基本信息</h4>
+                    <table class="detail-table">
+                        <tr><td>板块</td><td>{_fmt(r.value('sector'))}</td></tr>
+                        <tr><td>招股日期</td><td>{_fmt(r.value('offer_start_date'))} 至 {_fmt(r.value('offer_end_date'))}</td></tr>
+                        <tr><td>上市日期</td><td>{_fmt(r.value('listing_date'))}</td></tr>
+                        <tr><td>发行价</td><td>{_fmt(r.value('offer_price_range'))}</td></tr>
+                        <tr><td>入场费</td><td>{_money(r.value('entry_fee_hkd'))}</td></tr>
+                        <tr><td>募资规模</td><td>{_money(r.value('offer_size_hkd'))}</td></tr>
+                        <tr><td>保荐人</td><td>{_fmt(r.value('sponsors'))}</td></tr>
+                    </table>
+                </div>
+                <div>
+                    <h4>评分明细</h4>
+                    <table class="detail-table">
+                        <tr><td>基本面</td><td class="num">{s.fundamentals:.1f}/25</td></tr>
+                        <tr><td>行业</td><td class="num">{s.sector:.1f}/15</td></tr>
+                        <tr><td>发行结构</td><td class="num">{s.offer_structure:.1f}/15</td></tr>
+                        <tr><td>基石</td><td class="num">{s.cornerstone:.1f}/15</td></tr>
+                        <tr><td>市场热度</td><td class="num">{s.market_heat:.1f}/20</td></tr>
+                        <tr><td>风险扣分</td><td class="num">-{s.risk_deduction:.1f}</td></tr>
+                        <tr style="font-weight:700"><td>总分</td><td class="num">{s.total:.1f}/100</td></tr>
+                    </table>
+                </div>
+                <div>
+                    <h4>市场热度</h4>
+                    <table class="detail-table">
+                        <tr><td>融资认购</td><td>{_money(r.value('margin_amount_hkd'))}</td></tr>
+                        <tr><td>融资倍数</td><td>{_fmt(r.value('margin_multiple'), 'x')}</td></tr>
+                        <tr><td>超购</td><td>{_fmt(r.value('actual_oversubscription'), 'x')}</td></tr>
+                        <tr><td>暗盘</td><td>{_fmt(r.value('grey_market_return_pct'), '%')}</td></tr>
+                        <tr><td>基石占比</td><td>{_fmt(r.value('cornerstone_ratio'), '%')}</td></tr>
+                    </table>
+                </div>
+                <div>
+                    <h4>结论</h4>
+                    <p><strong>建议：{s.recommendation}</strong></p>
+                    <p>策略：{s.strategy}</p>
+                    <p>可信度：{s.confidence:.0%}</p>
+                    <p>风险：{_notes(s.explanations['risk'])}</p>
+                </div>
+            </div>
+        </details>"""
+
+    return f"""<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>港股新股打新日报 - {day.isoformat()}</title>
+<style>
+:root {{ --bg: #f8fafc; --card: #fff; --text: #1e293b; --muted: #64748b; --border: #e2e8f0; }}
+* {{ box-sizing:border-box; margin:0; padding:0; }}
+body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans HK', sans-serif; background:var(--bg); color:var(--text); line-height:1.6;padding:16px;max-width:960px;margin:0 auto; }}
+h1 {{ font-size:1.5rem; margin-bottom:4px; }}
+.disclaimer {{ color:var(--muted); font-size:.8rem; margin-bottom:16px; }}
+.cards {{ display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px; margin-bottom:20px; }}
+.card {{ background:var(--card); border-radius:8px; padding:12px; box-shadow:0 1px 3px rgba(0,0,0,.08); text-align:center; }}
+.card .num {{ font-size:1.8rem; font-weight:700; }}
+.card .label {{ font-size:.75rem; color:var(--muted); margin-top:2px; }}
+table {{ width:100%; border-collapse:collapse; background:var(--card); border-radius:8px; overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,.08); margin-bottom:16px; }}
+th,td {{ padding:8px 10px; text-align:left; font-size:.85rem; border-bottom:1px solid var(--border); }}
+th {{ background:#f1f5f9; font-weight:600; white-space:nowrap; }}
+.name-col {{ max-width:180px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }}
+.score-badge {{ display:inline-block; padding:2px 8px; border-radius:12px; color:#fff; font-weight:700; font-size:.8rem; min-width:36px; text-align:center; }}
+.rec-positive {{ color:#16a34a; font-weight:700; }}
+.rec-neutral {{ color:#ca8a04; font-weight:700; }}
+.rec-caution {{ color:#ea580c; font-weight:700; }}
+.rec-high-risk {{ color:#dc2626; font-weight:700; }}
+details {{ background:var(--card); border-radius:8px; padding:10px 14px; margin-bottom:8px; box-shadow:0 1px 3px rgba(0,0,0,.08); }}
+summary {{ cursor:pointer; font-weight:600; font-size:.95rem; display:flex; align-items:center; gap:8px; }}
+.detail-grid {{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:10px; }}
+@media(max-width:600px){{ .detail-grid{{grid-template-columns:1fr;}} table{{font-size:.75rem;}} .cards{{grid-template-columns:1fr 1fr;}} }}
+.detail-table td {{ padding:4px 8px; font-size:.8rem; }}
+.detail-table td.num {{ text-align:right; font-weight:600; }}
+h4 {{ font-size:.85rem; margin-bottom:4px; color:var(--muted); }}
+p {{ margin:4px 0; font-size:.85rem; }}
+footer {{ margin-top:24px; padding-top:12px; border-top:1px solid var(--border); font-size:.75rem; color:var(--muted); text-align:center; }}
+</style>
+</head>
+<body>
+<h1>港股新股打新日报 - {day.isoformat()}</h1>
+<p class="disclaimer">确定性规则评分 · 缺失数据不获分 · 仅供研究，不构成投资建议</p>
+
+<div class="cards">
+    <div class="card"><div class="num">{total}</div><div class="label">可申购新股</div></div>
+    <div class="card"><div class="num">{high_score}</div><div class="label">高评分(≥75)</div></div>
+    <div class="card"><div class="num">{hot[0].value('margin_multiple') or 0 if hot else 0}x</div><div class="label">最热认购</div></div>
+    <div class="card"><div class="num">{high_conf}/{total}</div><div class="label">高置信度</div></div>
+</div>
+
+<table>
+    <thead><tr>
+        <th>代码</th><th>公司名称</th><th>板块</th><th>评分</th><th>可信度</th>
+        <th>入场费</th><th>融资倍数</th><th>基石占比</th><th>建议</th>
+    </tr></thead>
+    <tbody>{rows_html}
+    </tbody>
+</table>
+
+<h2>单只新股详情</h2>
+{detail_html}
+
+<footer>
+    每个字段的 value/source_url/source_name/fetched_at 已存入 SQLite field_evidence 表 · 本报告仅供研究，不构成投资建议
+</footer>
+</body>
+</html>"""
+
+
 def write_report(report_dir: Path, day: date, items: list[tuple[IPORecord, ScoreResult]]) -> Path:
     report_dir.mkdir(parents=True, exist_ok=True)
     target = report_dir / f"{day.isoformat()}_hk_ipo_report.md"
     target.write_text(render_markdown(day, items), encoding="utf-8")
+    html_target = report_dir / f"{day.isoformat()}_hk_ipo_report.html"
+    html_target.write_text(render_html(day, items), encoding="utf-8")
     return target
 
 

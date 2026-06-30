@@ -1,4 +1,0 @@
-interface:
-  display_name: "IPO Analyzer"
-  short_description: "Analyze verified IPO prospectuses with evidence tracking"
-  default_prompt: "Use $ipo-analyzer to analyze verified current IPO prospectuses and produce a complete evidence-backed report."
