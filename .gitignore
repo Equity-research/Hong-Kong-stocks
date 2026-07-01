@@ -13,3 +13,7 @@ reports/*.md
 !data/raw/.gitkeep
 !data/prospectuses/.gitkeep
 !reports/.gitkeep
+
+data/.chief_cache/
+data/.aipo_cache/
+data/.cache/
