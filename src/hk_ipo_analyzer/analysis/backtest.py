@@ -1,7 +1,6 @@
 ﻿from __future__ import annotations
 
 import logging
-from pathlib import Path
 from typing import Any
 
 from hk_ipo_analyzer.analysis.scoring_model import ScoringModel
@@ -95,13 +94,13 @@ def run_backtest(config: dict, days_back: int = 730) -> dict[str, Any]:
         "回测完成：%s 条记录，高分准确率 %.1f%%，推荐准确率 %.1f%%",
         total, report["high_score_accuracy"], report["recommendation_accuracy"],
     )
-    print(f"\n=== 港股 IPO 评分模型回测报告 ===")
+    print("\n=== 港股 IPO 评分模型回测报告 ===")
     print(f"样本总数: {total}")
     print(f"整体胜率: {report['overall_win_rate']}%")
     print(f"高分(≥75)准确率: {report['high_score_accuracy']}%")
     print(f"低分(<55)准确率: {report['low_score_accuracy']}%")
     print(f"推荐准确率: {report['recommendation_accuracy']}%")
-    print(f"\n评分区间分布:")
+    print("\n评分区间分布:")
     for label, stats in by_band.items():
         print(f"  {label}: {stats['count']}只, 胜率 {stats['win_rate']*100:.1f}%")
     return report

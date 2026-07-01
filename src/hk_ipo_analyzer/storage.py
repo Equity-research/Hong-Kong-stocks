@@ -30,6 +30,21 @@ CREATE TABLE IF NOT EXISTS field_evidence (
   fetched_at TEXT NOT NULL,
   PRIMARY KEY (report_date, stock_code, field_name)
 );
+CREATE TABLE IF NOT EXISTS field_evidence_candidates (
+  report_date TEXT NOT NULL,
+  stock_code TEXT NOT NULL,
+  field_name TEXT NOT NULL,
+  candidate_index INTEGER NOT NULL,
+  value_json TEXT,
+  source_url TEXT,
+  source_name TEXT,
+  fetched_at TEXT NOT NULL,
+  source_tier TEXT NOT NULL,
+  period TEXT,
+  currency TEXT,
+  confidence REAL,
+  PRIMARY KEY (report_date, stock_code, field_name, candidate_index)
+);
 """
 
 
@@ -38,18 +53,35 @@ class SQLiteStore:
         path.parent.mkdir(parents=True, exist_ok=True)
         self.connection = sqlite3.connect(path)
         self.connection.executescript(SCHEMA)
+        self._ensure_columns()
 
-    def save(self, report_date: date, record: IPORecord, score: ScoreResult) -> None:
+    def _ensure_columns(self) -> None:
+        existing = {row[1] for row in self.connection.execute("PRAGMA table_info(ipo_daily)")}
+        additions = {
+            "enhanced_score": "REAL",
+            "enhanced_recommendation": "TEXT",
+            "enhanced_confidence": "REAL",
+        }
+        for name, column_type in additions.items():
+            if name not in existing:
+                self.connection.execute(f"ALTER TABLE ipo_daily ADD COLUMN {name} {column_type}")
+        self.connection.commit()
+
+    def save(self, report_date: date, record: IPORecord, official_score: ScoreResult, enhanced_score: ScoreResult) -> None:
         from dataclasses import asdict
 
         day = report_date.isoformat()
         self.connection.execute(
-            "INSERT OR REPLACE INTO ipo_daily VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+            """INSERT OR REPLACE INTO ipo_daily
+               (report_date, stock_code, company_name, total_score, recommendation, confidence,
+                record_json, score_json, enhanced_score, enhanced_recommendation, enhanced_confidence)
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
             (
-                day, record.stock_code, record.company_name, score.total,
-                score.recommendation, score.confidence,
+                day, record.stock_code, record.company_name, official_score.total,
+                official_score.recommendation, official_score.confidence,
                 json.dumps(record.to_dict(), ensure_ascii=False),
-                json.dumps(asdict(score), ensure_ascii=False),
+                json.dumps({"official": asdict(official_score), "enhanced": asdict(enhanced_score)}, ensure_ascii=False),
+                enhanced_score.total, enhanced_score.recommendation, enhanced_score.confidence,
             ),
         )
         for name, item in record.fields.items():
@@ -58,6 +90,18 @@ class SQLiteStore:
                 (day, record.stock_code, name, json.dumps(item.value, ensure_ascii=False),
                  item.source_url, item.source_name, item.fetched_at),
             )
+        self.connection.execute(
+            "DELETE FROM field_evidence_candidates WHERE report_date = ? AND stock_code = ?",
+            (day, record.stock_code),
+        )
+        for name, candidates in record.evidence_candidates.items():
+            for index, item in enumerate(candidates):
+                self.connection.execute(
+                    "INSERT INTO field_evidence_candidates VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    (day, record.stock_code, name, index, json.dumps(item.value, ensure_ascii=False),
+                     item.source_url, item.source_name, item.fetched_at, item.source_tier,
+                     item.period, item.currency, item.confidence),
+                )
         self.connection.commit()
 
     def close(self) -> None:
@@ -70,4 +114,3 @@ def save_raw_json(raw_dir: Path, report_date: date, record: IPORecord) -> Path:
     target = target_dir / f"{record.stock_code}.json"
     target.write_text(json.dumps(record.to_dict(), ensure_ascii=False, indent=2), encoding="utf-8")
     return target
-

@@ -1,9 +1,8 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import argparse
 import json
 import logging
-import sys
 from datetime import date, datetime
 from pathlib import Path
 
@@ -24,6 +23,7 @@ def run_once(args, config: dict) -> None:
         day=args.date or date.today(),
         input_json=Path(args.input_json) if args.input_json else None,
         skip_pdf=args.skip_pdf,
+        offline=args.offline,
     )
     print(report)
 
@@ -120,6 +120,7 @@ def main() -> None:
     daily.add_argument("--date", type=parse_date)
     daily.add_argument("--input-json", help="使用本地 JSON，适合离线测试或人工数据")
     daily.add_argument("--skip-pdf", action="store_true", help="不下载/解析招股书")
+    daily.add_argument("--offline", action="store_true", help="仅使用本地输入和历史缓存，不访问在线数据源")
 
     verify = subparsers.add_parser("verify", help="交互式手工核验 IPO 数据")
     verify.add_argument("--code", help="股票代码")

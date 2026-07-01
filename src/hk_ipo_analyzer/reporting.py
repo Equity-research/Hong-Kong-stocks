@@ -8,6 +8,8 @@ import pandas as pd
 
 from hk_ipo_analyzer.models import IPORecord, ScoreResult
 
+AnalysisItem = tuple[IPORecord, ScoreResult, ScoreResult]
+
 
 DISPLAY_FIELDS = [
     "offer_start_date", "offer_end_date", "listing_date", "offer_price_range",
@@ -30,8 +32,17 @@ def _fmt(value: Any, suffix: str = "") -> str:
     return f"{value}{suffix}"
 
 
-def _money(value: Any) -> str:
-    return "缺失" if value is None else f"HK${float(value):,.0f}"
+def _money(value: Any, currency: str = "HKD") -> str:
+    if value is None:
+        return "缺失"
+    prefix = {"HKD": "HK$", "RMB": "RMB ", "SGD": "S$", "USD": "US$"}.get(currency, f"{currency} ")
+    return f"{prefix}{float(value):,.0f}"
+
+
+def _yes_no(value: Any) -> str:
+    if value is None:
+        return "缺失"
+    return "是" if value is True else "否"
 
 
 def _notes(items: list[str]) -> str:
@@ -60,32 +71,38 @@ def _score_color(total: float) -> str:
     return "#ef4444"
 
 
-def render_markdown(day: date, items: list[tuple[IPORecord, ScoreResult]]) -> str:
-    covered = sum(1 for record, _ in items if record.value("offer_start_date") and record.value("offer_end_date"))
-    high_confidence = sum(1 for _, score in items if score.confidence >= 0.8)
+def render_markdown(day: date, items: list[AnalysisItem]) -> str:
+    covered = sum(1 for record, _, _ in items if record.value("offer_start_date") and record.value("offer_end_date"))
+    prospectus_covered = sum(1 for record, _, _ in items if any(doc.get("document_type") == "prospectus" for doc in record.documents))
+    revenue_covered = sum(1 for record, _, _ in items if record.value("revenue") is not None)
+    structure_covered = sum(1 for record, _, _ in items if record.value("greenshoe") is not None)
+    cornerstone_covered = sum(1 for record, _, _ in items if record.value("cornerstone_count") is not None)
+    official_high_confidence = sum(1 for _, score, _ in items if score.confidence >= 0.8)
+    enhanced_high_confidence = sum(1 for _, _, score in items if score.confidence >= 0.8)
     lines = [
         f"# 港股新股打新日报 - {day.isoformat()}", "",
         "> 本报告采用确定性规则评分；缺失数据不获分且可能触发风险扣分。仅供研究，不构成投资建议。", "",
         "## 数据质量与口径", "",
         f"- **当日真实可申购：{len(items)} 只**",
         f"- 名单规则：仅保留 `招股开始日 ≤ {day.isoformat()} ≤ 招股截止日` 且日期来源可追溯的记录。",
-        f"- 招股日期覆盖：{covered}/{len(items)}；高置信度分析：{high_confidence}/{len(items)}。",
-        "- 暗盘尚未开始时保持缺失；孖展、中签率及估值没有可靠来源时不作推测。", "",
+        f"- 招股日期覆盖：{covered}/{len(items)}；官方/增强高置信度：{official_high_confidence}/{len(items)}、{enhanced_high_confidence}/{len(items)}。",
+        f"- 港交所招股书入口：{prospectus_covered}/{len(items)}；收入数据：{revenue_covered}/{len(items)}；绿鞋：{structure_covered}/{len(items)}；基石数量：{cornerstone_covered}/{len(items)}。",
+        "- 官方分只采用 A 级一手来源和完整财年；增强分允许 A/B 级来源和最新可比期间。C 级数据仅展示。",
+        "- 未到配发或暗盘阶段的字段标记为尚未公布，不计入对应阶段的缺失惩罚。", "",
         "## 今日可申购新股总览", "",
-        "| 股票代码 | 公司名称 | 板块 | 招股日期 | 上市日期 | 入场费 | 发行价区间 | 融资倍率 | 基石占比 | 评分 | 建议 |",
-        "| --- | --- | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | --- |",
+        "| 股票代码 | 公司名称 | 板块 | 招股日期 | 入场费 | 基石占比 | 官方分/置信度 | 增强分/置信度 | 增强建议 |",
+        "| --- | --- | --- | --- | ---: | ---: | ---: | ---: | --- |",
     ]
-    for record, score in items:
+    for record, official, enhanced in items:
         offer_dates = f"{_fmt(record.value('offer_start_date'))} 至 {_fmt(record.value('offer_end_date'))}"
         lines.append(
             f"| {record.stock_code} | {record.company_name} | {_fmt(record.value('sector'))} | "
-            f"{offer_dates} | {_fmt(record.value('listing_date'))} | {_money(record.value('entry_fee_hkd'))} | "
-            f"{_fmt(record.value('offer_price_range'))} | {_fmt(record.value('margin_multiple'), 'x')} | "
-            f"{_fmt(record.value('cornerstone_ratio'), '%')} | {score.total:.1f} | {score.recommendation} |"
+            f"{offer_dates} | {_money(record.value('entry_fee_hkd'))} | {_fmt(record.value('cornerstone_ratio'), '%')} | "
+            f"{official.total:.1f}/{official.confidence:.0%} | {enhanced.total:.1f}/{enhanced.confidence:.0%} | {enhanced.recommendation} |"
         )
 
     lines.extend(["", "## 单只新股分析", ""])
-    for index, (r, s) in enumerate(items, 1):
+    for index, (r, s, enhanced) in enumerate(items, 1):
         lines.extend([
             f"### {index}. {r.company_name} / {r.stock_code}", "", "#### 基本信息", "",
             f"- 公司名称：{r.company_name}", f"- 股票代码：{r.stock_code}",
@@ -97,16 +114,19 @@ def render_markdown(day: date, items: list[tuple[IPORecord, ScoreResult]]) -> st
             f"- 一手股数：{_fmt(r.value('board_lot'))}",
             f"- 入场费：{_money(r.value('entry_fee_hkd'))}",
             f"- 募资规模：{_money(r.value('offer_size_hkd'))}",
-            f"- 保荐人：{_fmt(r.value('sponsors'))}", "", "#### 公司基本面", "",
-            f"- 收入：{_money(r.value('revenue'))}；增长率 {_fmt(r.value('revenue_growth_pct'), '%')}",
-            f"- 净利润 / 经调整净利润：{_money(r.value('net_profit'))} / {_money(r.value('adjusted_net_profit'))}",
+            f"- 保荐人：{_fmt(r.value('sponsors'))}",
+            f"- 绿鞋机制：{_yes_no(r.value('greenshoe'))}", "", "#### 公司基本面", "",
+            f"- 财务口径：{_fmt(r.value('financial_period'))}；币种 {_fmt(r.value('financial_currency'))}",
+            f"- 收入：{_money(r.value('revenue'), r.value('financial_currency', 'HKD'))}；增长率 {_fmt(r.value('revenue_growth_pct'), '%')}",
+            f"- 净利润 / 经调整净利润：{_money(r.value('net_profit'), r.value('financial_currency', 'HKD'))} / {_money(r.value('adjusted_net_profit'), r.value('financial_currency', 'HKD'))}",
             f"- 毛利率：{_fmt(r.value('gross_margin_latest'), '%')}",
-            f"- 现金流：{_money(r.value('operating_cash_flow'))}",
+            f"- 现金流：{_money(r.value('operating_cash_flow'), r.value('financial_currency', 'HKD'))}",
             f"- 资产负债率：{_fmt(r.value('debt_to_assets_pct'), '%')}",
             f"- 客户集中度：{_fmt(r.value('customer_concentration_top5'), '%')}",
             f"- 业务亮点：{_fmt(r.value('business_highlights'))}",
             f"- 主要风险：{_fmt(r.risk_tags)}", "", "#### 基石投资者", "",
             f"- 基石名单：{_fmt(r.value('cornerstone_investors'))}",
+            f"- 基石数量：{_fmt(r.value('cornerstone_count'))}",
             f"- 认购金额：{_money(r.value('cornerstone_amount_hkd'))}",
             f"- 占发行比例：{_fmt(r.value('cornerstone_ratio'), '%')}",
             f"- 评价：{_notes(s.explanations['cornerstone'])}", "", "#### 市场热度", "",
@@ -115,55 +135,100 @@ def render_markdown(day: date, items: list[tuple[IPORecord, ScoreResult]]) -> st
             f"- 公开发售超购情况：{_fmt(r.value('actual_oversubscription'), 'x')}",
             f"- 暗盘表现：{_fmt(r.value('grey_market_return_pct'), '%')}",
             f"- 近期同类 IPO 表现：{_fmt(r.value('peer_median_first_day_return_pct'), '%')}",
-            "", "#### 评分明细", "",
-            "| 维度 | 分数 | 说明 |", "| --- | ---: | --- |",
-            f"| 公司基本面 | {s.fundamentals:.1f}/25 | {_notes(s.explanations['fundamentals'])} |",
-            f"| 行业与概念 | {s.sector:.1f}/15 | {_notes(s.explanations['sector'])} |",
-            f"| 发行结构 | {s.offer_structure:.1f}/15 | {_notes(s.explanations['offer_structure'])} |",
-            f"| 基石投资者 | {s.cornerstone:.1f}/15 | {_notes(s.explanations['cornerstone'])} |",
-            f"| 市场热度 | {s.market_heat:.1f}/20 | {_notes(s.explanations['market_heat'])} |",
-            f"| 风险扣分 | -{s.risk_deduction:.1f} | {_notes(s.explanations['risk'])} |",
-            f"| 总分 | {s.total:.1f}/100 | 基础维度按 90 分归一化至 100 后扣风险分；可信度 {s.confidence:.0%} |",
-            "", "#### 结论", "", f"- 建议：{s.recommendation}", f"- 适合策略：{s.strategy}",
+            "", "#### 关键字段证据", "",
+            "| 字段 | 值/状态 | 来源等级 | 来源 | 期间 | 币种 |",
+            "| --- | --- | --- | --- | --- | --- |",
+            *_evidence_rows(r, day),
+            "", "#### 双轨评分", "",
+            "| 评分轨 | 总分 | 可信度 | 建议 |", "| --- | ---: | ---: | --- |",
+            f"| 官方分（A 级 + 完整财年） | {s.total:.1f} | {s.confidence:.0%} | {s.recommendation} |",
+            f"| 增强分（A/B 级 + 最新可比期间） | {enhanced.total:.1f} | {enhanced.confidence:.0%} | {enhanced.recommendation} |",
+            "", "#### 结论", "", f"- 官方建议：{s.recommendation}", f"- 增强建议：{enhanced.recommendation}", f"- 适合策略：{enhanced.strategy}",
             "- 不适合策略：在数据缺失或融资成本不明确时使用高杠杆。",
-            f"- 核心理由：{_notes(s.explanations['fundamentals'] + s.explanations['market_heat'])}",
-            f"- 主要风险：{_notes(s.explanations['risk'])}", "",
+            f"- 核心理由：{_notes(enhanced.explanations['fundamentals'] + enhanced.explanations['market_heat'])}",
+            f"- 主要风险：{_notes(enhanced.explanations['risk'])}", "",
         ])
 
     lines.extend(["## 数据缺失项", ""])
     if not items:
         lines.append("今日未获取到可分析的新股记录。请检查日志、HKEX 页面结构或手工输入。")
-    for r, s in items:
+    for r, s, enhanced in items:
         missing = r.missing_fields(DISPLAY_FIELDS)
-        impact = "高" if s.confidence < 0.55 else ("中" if s.confidence < 0.8 else "低")
-        lines.append(f"- {r.company_name}（{r.stock_code}）：{', '.join(missing) if missing else '无'}；对评分可信度影响：{impact}。")
+        impact = "高" if enhanced.confidence < 0.55 else ("中" if enhanced.confidence < 0.8 else "低")
+        reasons = [f"{name}（{_missing_reason(r, name, day)}）" for name in missing]
+        lines.append(f"- {r.company_name}（{r.stock_code}）：{', '.join(reasons) if reasons else '无'}；对评分可信度影响：{impact}。")
     lines.extend([
         "", "## 数据来源与追溯", "",
-        "每个字段的 `value/source_url/source_name/fetched_at` 已写入当日 JSON 和 SQLite `field_evidence` 表。", "",
+        "每个字段的候选证据及 `source_tier/period/currency` 已写入当日 JSON 和 SQLite `field_evidence_candidates` 表。", "",
         "## 免责声明", "",
         "本报告仅用于个人研究和数据整理，不构成任何投资建议。港股 IPO 存在破发、流动性不足、融资成本、中签率不确定、市场波动等风险，投资者需自行判断并承担风险。", "",
     ])
     return "\n".join(lines)
 
 
-def render_html(day: date, items: list[tuple[IPORecord, ScoreResult]]) -> str:
+EVIDENCE_FIELDS = (
+    "revenue", "net_profit", "gross_margin_latest", "operating_cash_flow",
+    "debt_to_assets_pct", "customer_concentration_top5", "cornerstone_ratio",
+    "greenshoe", "sponsors", "margin_multiple", "actual_oversubscription",
+    "grey_market_return_pct",
+)
+
+
+def _evidence_rows(record: IPORecord, day: date) -> list[str]:
+    rows = []
+    for name in EVIDENCE_FIELDS:
+        item = record.fields.get(name)
+        if item is None or item.missing:
+            rows.append(f"| `{name}` | {_missing_reason(record, name, day)} | — | — | — | — |")
+            continue
+        rows.append(
+            f"| `{name}` | {_fmt(item.value)} | {item.source_tier} | "
+            f"{item.source_name or '—'} | {item.period or '—'} | {item.currency or '—'} |"
+        )
+    return rows
+
+
+def _missing_reason(record: IPORecord, name: str, day: date) -> str:
+    if name == "actual_oversubscription":
+        publication = _date_value(record.value("allotment_result_date"))
+        if publication is None or day < publication:
+            return "未到配发结果公布时间"
+    if name == "grey_market_return_pct":
+        listing = _date_value(record.value("listing_date"))
+        if listing is None or day < listing:
+            return "未到暗盘/上市阶段"
+    if name in {"margin_amount_hkd", "margin_multiple"}:
+        return "未取得带抓取时间的可靠孖展来源"
+    return "未取得符合当前评分轨的可靠证据"
+
+
+def _date_value(value) -> date | None:
+    if isinstance(value, date):
+        return value
+    if value:
+        try:
+            return date.fromisoformat(str(value)[:10])
+        except ValueError:
+            pass
+    return None
+
+
+def render_html(day: date, items: list[AnalysisItem]) -> str:
     total = len(items)
-    high_score = sum(1 for _, s in items if s.total >= 75)
+    high_score = sum(1 for _, _, s in items if s.total >= 75)
     hot = max(items, key=lambda x: x[0].value("margin_multiple") or 0) if items else items[0] if items else None
-    high_risk = max(items, key=lambda x: x[1].risk_deduction) if items else items[0] if items else None
-    covered = sum(1 for r, _ in items if r.value("offer_start_date") and r.value("offer_end_date"))
-    high_conf = sum(1 for _, s in items if s.confidence >= 0.8)
+    high_conf = sum(1 for _, _, s in items if s.confidence >= 0.8)
 
     rows_html = ""
-    for r, s in items:
+    for r, official, s in items:
         score_color = _score_color(s.total)
         rows_html += f"""
             <tr>
                 <td>{r.stock_code}</td>
                 <td class="name-col">{r.company_name}</td>
                 <td>{_fmt(r.value('sector'))}</td>
-                <td><span class="score-badge" style="background:{score_color}">{s.total:.0f}</span></td>
-                <td>{s.confidence:.0%}</td>
+                <td>{official.total:.0f}<small> / {official.confidence:.0%}</small></td>
+                <td><span class="score-badge" style="background:{score_color}">{s.total:.0f}</span><small> / {s.confidence:.0%}</small></td>
                 <td>{_money(r.value('entry_fee_hkd'))}</td>
                 <td>{_fmt(r.value('margin_multiple'), 'x')}</td>
                 <td>{_fmt(r.value('cornerstone_ratio'), '%')}</td>
@@ -171,7 +236,7 @@ def render_html(day: date, items: list[tuple[IPORecord, ScoreResult]]) -> str:
             </tr>"""
 
     detail_html = ""
-    for idx, (r, s) in enumerate(items, 1):
+    for idx, (r, official, s) in enumerate(items, 1):
         sc = _score_color(s.total)
         detail_html += f"""
         <details>
@@ -195,13 +260,11 @@ def render_html(day: date, items: list[tuple[IPORecord, ScoreResult]]) -> str:
                 <div>
                     <h4>评分明细</h4>
                     <table class="detail-table">
-                        <tr><td>基本面</td><td class="num">{s.fundamentals:.1f}/25</td></tr>
-                        <tr><td>行业</td><td class="num">{s.sector:.1f}/15</td></tr>
-                        <tr><td>发行结构</td><td class="num">{s.offer_structure:.1f}/15</td></tr>
-                        <tr><td>基石</td><td class="num">{s.cornerstone:.1f}/15</td></tr>
-                        <tr><td>市场热度</td><td class="num">{s.market_heat:.1f}/20</td></tr>
-                        <tr><td>风险扣分</td><td class="num">-{s.risk_deduction:.1f}</td></tr>
-                        <tr style="font-weight:700"><td>总分</td><td class="num">{s.total:.1f}/100</td></tr>
+                        <tr><td>官方分</td><td class="num">{official.total:.1f} / {official.confidence:.0%}</td></tr>
+                        <tr><td>增强分</td><td class="num">{s.total:.1f} / {s.confidence:.0%}</td></tr>
+                        <tr><td>基本面（增强）</td><td class="num">{s.fundamentals:.1f}/25</td></tr>
+                        <tr><td>发行结构（增强）</td><td class="num">{s.offer_structure:.1f}/15</td></tr>
+                        <tr><td>基石（增强）</td><td class="num">{s.cornerstone:.1f}/15</td></tr>
                     </table>
                 </div>
                 <div>
@@ -273,7 +336,7 @@ footer {{ margin-top:24px; padding-top:12px; border-top:1px solid var(--border);
 
 <table>
     <thead><tr>
-        <th>代码</th><th>公司名称</th><th>板块</th><th>评分</th><th>可信度</th>
+        <th>代码</th><th>公司名称</th><th>板块</th><th>官方分/置信度</th><th>增强分/置信度</th>
         <th>入场费</th><th>融资倍数</th><th>基石占比</th><th>建议</th>
     </tr></thead>
     <tbody>{rows_html}
@@ -290,7 +353,7 @@ footer {{ margin-top:24px; padding-top:12px; border-top:1px solid var(--border);
 </html>"""
 
 
-def write_report(report_dir: Path, day: date, items: list[tuple[IPORecord, ScoreResult]]) -> Path:
+def write_report(report_dir: Path, day: date, items: list[AnalysisItem]) -> Path:
     report_dir.mkdir(parents=True, exist_ok=True)
     target = report_dir / f"{day.isoformat()}_hk_ipo_report.md"
     target.write_text(render_markdown(day, items), encoding="utf-8")
@@ -299,10 +362,10 @@ def write_report(report_dir: Path, day: date, items: list[tuple[IPORecord, Score
     return target
 
 
-def update_summary_csv(path: Path, day: date, items: list[tuple[IPORecord, ScoreResult]]) -> None:
+def update_summary_csv(path: Path, day: date, items: list[AnalysisItem]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     rows = []
-    for record, score in items:
+    for record, official_score, enhanced_score in items:
         rows.append({
             "report_date": day.isoformat(), "stock_code": record.stock_code,
             "company_name": record.company_name, "sector": record.value("sector"),
@@ -310,14 +373,9 @@ def update_summary_csv(path: Path, day: date, items: list[tuple[IPORecord, Score
             "offer_end_date": record.value("offer_end_date"), "listing_date": record.value("listing_date"),
             "offer_price_range": record.value("offer_price_range"), "entry_fee_hkd": record.value("entry_fee_hkd"),
             "margin_multiple": record.value("margin_multiple"), "cornerstone_ratio": record.value("cornerstone_ratio"),
-            "score": score.total, "confidence": score.confidence, "recommendation": score.recommendation,
+            "score": official_score.total, "confidence": official_score.confidence, "recommendation": official_score.recommendation,
+            "enhanced_score": enhanced_score.total, "enhanced_confidence": enhanced_score.confidence,
+            "enhanced_recommendation": enhanced_score.recommendation,
         })
-    new = pd.DataFrame(rows)
-    if path.exists() and path.stat().st_size:
-        old = pd.read_csv(path, dtype={"stock_code": str})
-        old = old[old["report_date"].astype(str) != day.isoformat()]
-        frame = pd.concat([old, new], ignore_index=True)
-        frame = frame.drop_duplicates(["report_date", "stock_code"], keep="last")
-    else:
-        frame = new
-    frame.to_csv(path, index=False, encoding="utf-8-sig")
+    # 汇总文件是“当日快照”，每次运行整体替换，避免历史日期混入今日名单。
+    pd.DataFrame(rows).to_csv(path, index=False, encoding="utf-8-sig")

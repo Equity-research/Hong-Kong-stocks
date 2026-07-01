@@ -1,4 +1,6 @@
-﻿from __future__ import annotations
+from __future__ import annotations
+
+from datetime import date
 
 from hk_ipo_analyzer.analysis.recommendation import apply_recommendation
 from hk_ipo_analyzer.models import IPORecord, ScoreResult
@@ -26,6 +28,7 @@ CORE_FIELDS = [
     "margin_amount_hkd",
     "margin_multiple",
     "expected_oversubscription",
+    "actual_oversubscription",
     "grey_market_return_pct",
     "news_heat_score",
     "sector_break_even_rate",
@@ -48,7 +51,7 @@ class ScoringModel:
         self.hot_sectors = set(hot_sectors or [])
         self.max_missing_penalty = max_missing_penalty
 
-    def score(self, r: IPORecord) -> ScoreResult:
+    def score(self, r: IPORecord, as_of: date | None = None) -> ScoreResult:
         explanations: dict[str, list[str]] = {
             key: [] for key in ("fundamentals", "sector", "offer_structure",
                                  "cornerstone", "market_heat", "risk")
@@ -58,7 +61,8 @@ class ScoringModel:
         offer = self._offer(r, explanations["offer_structure"])
         cornerstone = self._cornerstone(r, explanations["cornerstone"])
         heat = self._heat(r, explanations["market_heat"])
-        missing_ratio = len(r.missing_fields(CORE_FIELDS)) / len(CORE_FIELDS)
+        core_fields = self._applicable_core_fields(r, as_of)
+        missing_ratio = len(r.missing_fields(core_fields)) / len(core_fields)
         risk = self._risk(r, missing_ratio, explanations["risk"])
         base_90 = fundamentals + sector + offer + cornerstone + heat
         total = max(0.0, min(100.0, base_90 / 90.0 * 100.0 - risk))
@@ -70,6 +74,24 @@ class ScoringModel:
             explanations=explanations,
         )
         return apply_recommendation(result)
+
+    @staticmethod
+    def _applicable_core_fields(r: IPORecord, as_of: date | None) -> list[str]:
+        fields = list(CORE_FIELDS)
+        if as_of is None:
+            return [name for name in fields if name not in {"actual_oversubscription", "grey_market_return_pct"}]
+        try:
+            listing = r.value("listing_date")
+            allotment = r.value("allotment_result_date")
+            listing_date = date.fromisoformat(str(listing)[:10]) if listing else None
+            allotment_date = date.fromisoformat(str(allotment)[:10]) if allotment else None
+        except ValueError:
+            listing_date = allotment_date = None
+        if allotment_date is None or as_of < allotment_date:
+            fields = [name for name in fields if name != "actual_oversubscription"]
+        if listing_date is None or as_of < listing_date:
+            fields = [name for name in fields if name != "grey_market_return_pct"]
+        return fields
 
     def _fundamentals(self, r: IPORecord, notes: list[str]) -> float:
         growth = _band(r.value("revenue_growth_pct"), [(30, 6), (15, 4.5), (5, 3), (0, 1.5)])
@@ -111,7 +133,7 @@ class ScoringModel:
     def _cornerstone(self, r: IPORecord, notes: list[str]) -> float:
         count = _band(r.value("cornerstone_count"), [(8, 5), (4, 4), (1, 2)])
         ratio_value = r.value("cornerstone_ratio")
-        ratio = 4 if ratio_value is not None and 25 <= ratio_value <= 55 else (2 if ratio_value is not None else 0)
+        ratio = 4 if ratio_value is not None and 25 <= ratio_value <= 55 else (2 if ratio_value is not None and ratio_value > 0 else 0)
         quality = max(0, min(4, float(r.value("cornerstone_quality_score", 0) or 0)))
         lockup = _band(r.value("cornerstone_lockup_months"), [(12, 2), (6, 1.5), (3, 0.5)])
         notes.append(f"数量{count:g}、占比{ratio:g}、质量{quality:g}、锁定期{lockup:g}")

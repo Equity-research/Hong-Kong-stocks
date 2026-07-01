@@ -5,162 +5,312 @@
     {
       "stock_code": "02523", "company_name": "永康控股有限公司",
       "source_url": "https://www.etnet.com.hk/www/tc/stocks/ipo-info.php?code=2523",
+      "prospectus_url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0630/2026063000179_c.htm",
       "source_name": "etnet 招股资讯（据招股文件整理）", "fetched_at": "2026-06-30T18:00:00+08:00",
       "verified_fields": {
         "offer_start_date": "2026-06-30", "offer_end_date": "2026-07-08", "allotment_result_date": "2026-07-10", "listing_date": "2026-07-13",
         "offer_price_low": 2.20, "offer_price_high": 2.68, "offer_price_range": "HK$2.20-HK$2.68", "board_lot": 2000, "entry_fee_hkd": 5414.05,
-        "offer_size_hkd": 97600000, "sector": "运输", "business_description": "为东盟及中国的集装箱航运及租赁公司提供堆场、维修、运输等物流服务。"
+        "offer_size_hkd": 97600000, "sector": "运输", "business_description": "为东盟及中国的集装箱航运及租赁公司提供堆场、维修、运输等物流服务。",
+        "financial_period": {"value": "FY2025", "source_url": "https://www.stcn.com/article/detail/3987969.html", "source_name": "证券时报（引述招股书）"},
+        "financial_currency": {"value": "SGD", "source_url": "https://www.stcn.com/article/detail/3987969.html", "source_name": "证券时报（引述招股书）"},
+        "net_profit": {"value": 13091000, "source_url": "https://www.stcn.com/article/detail/3987969.html", "source_name": "证券时报（引述招股书）"},
+        "gross_margin_latest": {"value": 29.5, "source_url": "https://www.finet.hk/newscenter/news_content/6a435fec230829983c60be98", "source_name": "财华社（引述招股书）"},
+        "customer_concentration_top5": {"value": 26.3, "source_url": "https://www.finet.hk/newscenter/news_content/6a435fec230829983c60be98", "source_name": "财华社（引述招股书）"},
+        "supplier_concentration_top5": {"value": 30.3, "source_url": "https://www.finet.hk/newscenter/news_content/6a435fec230829983c60be98", "source_name": "财华社（引述招股书）"},
+        "greenshoe": {"value": true, "source_url": "https://www.stcn.com/article/detail/3987969.html", "source_name": "证券时报（引述发行公告）"}
       }
     },
     {
       "stock_code": "02249", "company_name": "合肥晶合集成电路股份有限公司",
       "source_url": "https://www.etnet.com.hk/www/tc/stocks/ipo-info.php?code=2249",
+      "prospectus_url": "https://www.hkexnews.hk/listedco/listconews/sehk/2026/0630/2026063000129_c.htm",
       "source_name": "etnet 招股资讯（据招股文件整理）", "fetched_at": "2026-06-30T18:00:00+08:00",
       "verified_fields": {
         "offer_start_date": "2026-06-30", "offer_end_date": "2026-07-07", "allotment_result_date": "2026-07-09", "listing_date": "2026-07-10",
         "offer_price_low": 30.00, "offer_price_high": 32.30, "offer_price_range": "HK$30.00-HK$32.30", "board_lot": 100, "entry_fee_hkd": 3262.57,
-        "offer_size_hkd": 6536000000, "sector": "半导体", "business_description": "12英寸晶圆代工企业，覆盖150nm至40nm技术节点并开发28nm逻辑芯片平台。"
+        "offer_size_hkd": 6536000000, "sector": "半导体", "business_description": "12英寸晶圆代工企业，覆盖150nm至40nm技术节点并开发28nm逻辑芯片平台。",
+        "financial_period": {"value": "FY2025", "source_url": "https://m.sohu.com/a/1043696316_522913", "source_name": "搜狐 IPO 追踪（引述招股书）"},
+        "financial_currency": {"value": "RMB", "source_url": "https://m.sohu.com/a/1043696316_522913", "source_name": "搜狐 IPO 追踪（引述招股书）"},
+        "revenue": {"value": 10388000000, "source_url": "https://m.sohu.com/a/1043696316_522913", "source_name": "搜狐 IPO 追踪（引述招股书）"},
+        "revenue_growth_pct": {"value": 13.9, "source_url": "https://m.sohu.com/a/1043696316_522913", "source_name": "按招股书数据计算"},
+        "net_profit": {"value": 466000000, "source_url": "https://m.sohu.com/a/1043696316_522913", "source_name": "搜狐 IPO 追踪（引述招股书）"},
+        "net_margin_pct": {"value": 4.49, "source_url": "https://m.sohu.com/a/1043696316_522913", "source_name": "按招股书数据计算"},
+        "gross_margin_latest": {"value": 22.7, "source_url": "https://m.sohu.com/a/1043696316_522913", "source_name": "搜狐 IPO 追踪（引述招股书）"},
+        "greenshoe": {"value": true, "source_url": "https://m.sohu.com/a/1043696316_522913", "source_name": "搜狐 IPO 追踪（引述招股书）"},
+        "cornerstone_count": {"value": 20, "source_url": "https://m.sohu.com/a/1043696316_522913", "source_name": "搜狐 IPO 追踪（引述招股书）"},
+        "cornerstone_amount_hkd": {"value": 3372000000, "source_url": "https://m.sohu.com/a/1043696316_522913", "source_name": "搜狐 IPO 追踪（引述招股书）"},
+        "cornerstone_ratio": {"value": 49.92, "source_url": "https://m.sohu.com/a/1043696316_522913", "source_name": "搜狐 IPO 追踪（引述招股书）"}
       }
     },
     {
       "stock_code": "06745", "company_name": "滨化集团股份有限公司",
       "source_url": "https://www.etnet.com.hk/www/tc/stocks/ipo-info.php?code=6745",
+      "prospectus_url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0630/2026063000239_c.htm",
       "source_name": "etnet 招股资讯（据招股文件整理）", "fetched_at": "2026-06-30T18:00:00+08:00",
       "verified_fields": {
         "offer_start_date": "2026-06-30", "offer_end_date": "2026-07-07", "allotment_result_date": "2026-07-09", "listing_date": "2026-07-10",
         "offer_price_low": 3.05, "offer_price_high": 3.59, "offer_price_range": "HK$3.05-HK$3.59", "board_lot": 1000, "entry_fee_hkd": 3626.21,
-        "offer_size_hkd": 1102000000, "sector": "化工", "business_description": "中国化工产品制造企业，主要业务属于化学制品行业。"
+        "offer_size_hkd": 1102000000, "sector": "化工", "business_description": "中国化工产品制造企业，主要业务属于化学制品行业。",
+        "financial_period": {"value": "FY2025", "source_url": "https://www.stcn.com/article/detail/3989036.html", "source_name": "证券时报（引述招股书）"},
+        "financial_currency": {"value": "RMB", "source_url": "https://www.stcn.com/article/detail/3989036.html", "source_name": "证券时报（引述招股书）"},
+        "revenue": {"value": 14836000000, "source_url": "https://www.stcn.com/article/detail/3989036.html", "source_name": "证券时报（引述招股书）"},
+        "revenue_growth_pct": {"value": 45.05, "source_url": "https://www.stcn.com/article/detail/3989036.html", "source_name": "按招股书数据计算"},
+        "cornerstone_ratio": {"value": 33.41, "source_url": "https://finance.sina.com.cn/stock/bxjj/2026-06-30/doc-inifcvua1688088.shtml", "source_name": "新浪财经（引述发行公告）"},
+        "cornerstone_investors": {"value": ["中国宏桥", "北京益安相关投资", "鲁花道生相关投资"], "source_url": "https://www.finet.hk/newscenter/news_content/6a438090230829983c60beae", "source_name": "财华社（部分名单）"}
       }
     },
     {
       "stock_code": "01377", "company_name": "广东鼎泰高科技股份有限公司",
       "source_url": "https://www.etnet.com.hk/www/tc/stocks/ipo-info.php?code=1377",
+      "prospectus_url": "https://www.hkexnews.hk/listedco/listconews/sehk/2026/0630/2026063000429_c.htm",
       "source_name": "etnet 招股资讯（据招股文件整理）", "fetched_at": "2026-06-30T18:00:00+08:00",
       "verified_fields": {
         "offer_start_date": "2026-06-30", "offer_end_date": "2026-07-06", "allotment_result_date": "2026-07-08", "listing_date": "2026-07-09",
         "offer_price_high": 380.00, "offer_price_range": "最高HK$380.00", "board_lot": 100, "entry_fee_hkd": 38383.24,
-        "offer_size_hkd": 4665000000, "sector": "精密制造", "business_description": "为PCB制造关键工序提供精密刀具、材料及智能数控装备。"
+        "offer_size_hkd": 4665000000, "sector": "精密制造", "business_description": "为PCB制造关键工序提供精密刀具、材料及智能数控装备。",
+        "financial_period": {"value": "FY2025", "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12023480&stockid=301377", "source_name": "公司2025年年报"},
+        "financial_currency": {"value": "RMB", "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12023480&stockid=301377", "source_name": "公司2025年年报"},
+        "revenue": {"value": 2143538078.96, "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12023480&stockid=301377", "source_name": "公司2025年年报"},
+        "revenue_growth_pct": {"value": 35.7, "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12023480&stockid=301377", "source_name": "公司2025年年报"},
+        "net_profit": {"value": 432000000, "source_url": "https://finance.sina.com.cn/stock/aigc/ggxg/zgs/2026-06-05/doc-iniaicuw3036786.shtml", "source_name": "新浪财经（引述招股书）"},
+        "net_margin_pct": {"value": 20.15, "source_url": "https://finance.sina.com.cn/stock/aigc/ggxg/zgs/2026-06-05/doc-iniaicuw3036786.shtml", "source_name": "按招股书数据计算"},
+        "gross_margin_latest": {"value": 40.4, "source_url": "https://finance.sina.com.cn/stock/aigc/ggxg/zgs/2026-06-05/doc-iniaicuw3036786.shtml", "source_name": "新浪财经（引述招股书）"},
+        "cornerstone_count": {"value": 17, "source_url": "https://www.metroradio.com.hk/news/details.aspx?CategoryName=finance&NewsID=20260630105106", "source_name": "新城财经台（引述招股书）"},
+        "cornerstone_investors": {"value": ["胜宏科技", "高瓴", "建滔集团", "易方达", "定颖投控"], "source_url": "https://www.metroradio.com.hk/news/details.aspx?CategoryName=finance&NewsID=20260630105106", "source_name": "新城财经台（部分名单）"}
       }
     },
     {
       "stock_code": "02475", "company_name": "立讯精密工业股份有限公司",
       "source_url": "https://www.etnet.com.hk/www/tc/stocks/ipo-info.php?code=2475",
+      "prospectus_url": "https://www.hkexnews.hk/listedco/listconews/sehk/2026/0630/2026063000285_c.htm",
       "source_name": "etnet 招股资讯（据招股文件整理）", "fetched_at": "2026-06-30T18:00:00+08:00",
       "verified_fields": {
         "offer_start_date": "2026-06-30", "offer_end_date": "2026-07-06", "allotment_result_date": "2026-07-08", "listing_date": "2026-07-09",
         "offer_price_high": 63.28, "offer_price_range": "最高HK$63.28", "board_lot": 100, "entry_fee_hkd": 6391.82,
-        "offer_size_hkd": 24000000000, "sector": "消费电子", "business_description": "精密制造与消费电子产业链企业。"
+        "offer_size_hkd": 24000000000, "sector": "消费电子", "business_description": "精密制造与消费电子产业链企业。",
+        "financial_period": {"value": "FY2025", "source_url": "https://www.finet.hk/newscenter/news_content/6a436fe3230829983c60bea3", "source_name": "财华社（引述招股书）"},
+        "financial_currency": {"value": "RMB", "source_url": "https://www.finet.hk/newscenter/news_content/6a436fe3230829983c60bea3", "source_name": "财华社（引述招股书）"},
+        "revenue": {"value": 332344000000, "source_url": "https://www.finet.hk/newscenter/news_content/6a436fe3230829983c60bea3", "source_name": "财华社（引述招股书）"},
+        "revenue_growth_pct": {"value": 23.64, "source_url": "https://www.finet.hk/newscenter/news_content/6a436fe3230829983c60bea3", "source_name": "按招股书数据计算"},
+        "net_profit": {"value": 18170000000, "source_url": "https://www.finet.hk/newscenter/news_content/6a436fe3230829983c60bea3", "source_name": "财华社（引述招股书）"},
+        "net_margin_pct": {"value": 5.47, "source_url": "https://www.finet.hk/newscenter/news_content/6a436fe3230829983c60bea3", "source_name": "按招股书数据计算"},
+        "gross_margin_latest": {"value": 11.6, "source_url": "https://www.finet.hk/newscenter/news_content/6a436fe3230829983c60bea3", "source_name": "财华社（引述招股书）"},
+        "greenshoe": {"value": true, "source_url": "https://www.finet.hk/newscenter/news_content/6a436fe3230829983c60bea3", "source_name": "财华社（引述招股书）"},
+        "cornerstone_count": {"value": 26, "source_url": "https://www.etnet.com.hk/www/tc/news/news-article.php?category=ipo&newsid=20260630168&section=categorized", "source_name": "经济通（引述招股书）"},
+        "cornerstone_amount_hkd": {"value": 11754000000, "source_url": "https://www.etnet.com.hk/www/tc/news/news-article.php?category=ipo&newsid=20260630168&section=categorized", "source_name": "经济通（引述招股书）"},
+        "cornerstone_ratio": {"value": 48.44, "source_url": "https://www.finet.hk/newscenter/news_content/6a436fe3230829983c60bea3", "source_name": "财华社（引述招股书）"},
+        "cornerstone_investors": {"value": ["淡马锡", "GIC", "阿布扎比投资局", "高瓴", "腾讯", "富达国际", "泰康人寿"], "source_url": "https://hkcd.com/hkcdweb/content/2026/06/30/content_8762448.html", "source_name": "香港商报（部分名单）"}
       }
     },
     {
       "stock_code": "02797", "company_name": "江西齐云山食品股份有限公司",
       "source_url": "https://www.etnet.com.hk/www/tc/stocks/ipo-info.php?code=2797",
+      "prospectus_url": "https://www.hkexnews.hk/listedco/listconews/sehk/2026/0630/2026063000155_c.htm",
       "source_name": "etnet 招股资讯（据招股文件整理）", "fetched_at": "2026-06-30T18:00:00+08:00",
       "verified_fields": {
         "offer_start_date": "2026-06-30", "offer_end_date": "2026-07-06", "allotment_result_date": "2026-07-08", "listing_date": "2026-07-09",
         "offer_price_low": 5.00, "offer_price_high": 8.00, "offer_price_range": "HK$5.00-HK$8.00", "board_lot": 500, "entry_fee_hkd": 4040.35,
-        "offer_size_hkd": 130000000, "sector": "消费", "business_description": "主要销售南酸枣食品产品的果类零食公司。"
+        "offer_size_hkd": 130000000, "sector": "消费", "business_description": "主要销售南酸枣食品产品的果类零食公司。",
+        "financial_period": {"value": "FY2025", "source_url": "https://finance.sina.cn/2026-03-14/detail-inhqxfkv3559527.d.html?vt=4", "source_name": "新浪财经（引述招股书）"},
+        "financial_currency": {"value": "RMB", "source_url": "https://finance.sina.cn/2026-03-14/detail-inhqxfkv3559527.d.html?vt=4", "source_name": "新浪财经（引述招股书）"},
+        "gross_margin_latest": {"value": 51.3, "source_url": "https://finance.sina.cn/2026-03-14/detail-inhqxfkv3559527.d.html?vt=4", "source_name": "新浪财经（引述招股书）"},
+        "customer_concentration_top5": {"value": 38.8, "source_url": "https://finance.sina.cn/2026-03-14/detail-inhqxfkv3559527.d.html?vt=4", "source_name": "新浪财经（引述招股书）"}
       }
     },
     {
       "stock_code": "03752", "company_name": "珞石（山东）机器人集团股份有限公司",
+      "risk_tags": ["持续亏损"],
       "source_url": "https://www.etnet.com.hk/www/tc/stocks/ipo-info.php?code=3752",
+      "prospectus_url": "https://www.hkexnews.hk/listedco/listconews/sehk/2026/0630/2026063000215_c.htm",
       "source_name": "etnet 招股资讯（据招股文件整理）", "fetched_at": "2026-06-30T18:00:00+08:00",
       "verified_fields": {
         "offer_start_date": "2026-06-30", "offer_end_date": "2026-07-06", "allotment_result_date": "2026-07-08", "listing_date": "2026-07-09",
         "offer_price_low": 38.00, "offer_price_high": 38.00, "offer_price_range": "HK$38.00", "board_lot": 100, "entry_fee_hkd": 3838.32,
         "offer_size_hkd": 875200000, "public_offer_ratio": 10, "greenshoe": true, "cornerstone_count": 5, "cornerstone_amount_hkd": 275000000, "cornerstone_ratio": 31.4,
-        "sector": "机器人", "business_description": "制造及销售工业、协作和具身智能机器人，并提供机器人解决方案。"
+        "sector": "机器人", "business_description": "制造及销售工业、协作和具身智能机器人，并提供机器人解决方案。",
+        "financial_period": {"value": "FY2025", "source_url": "https://www.hstong.com/news/detail/26062423550088242", "source_name": "华盛通（引述聆讯后资料集）"},
+        "financial_currency": {"value": "RMB", "source_url": "https://www.hstong.com/news/detail/26062423550088242", "source_name": "华盛通（引述聆讯后资料集）"},
+        "revenue": {"value": 522000000, "source_url": "https://www.hstong.com/news/detail/26062423550088242", "source_name": "华盛通（引述聆讯后资料集）"},
+        "revenue_growth_pct": {"value": 60.62, "source_url": "https://www.hstong.com/news/detail/26062423550088242", "source_name": "按聆讯后资料计算"},
+        "net_profit": {"value": -179000000, "source_url": "https://www.hstong.com/news/detail/26062423550088242", "source_name": "华盛通（引述聆讯后资料集）"},
+        "net_margin_pct": {"value": -34.29, "source_url": "https://www.hstong.com/news/detail/26062423550088242", "source_name": "按聆讯后资料计算"},
+        "gross_margin_latest": {"value": 21.9, "source_url": "https://www.hstong.com/news/detail/26062423550088242", "source_name": "华盛通（引述聆讯后资料集）"},
+        "operating_cash_flow": {"value": -77520000, "source_url": "https://www.hstong.com/news/detail/26062423550088242", "source_name": "华盛通（引述聆讯后资料集）"},
+        "customer_concentration_top5": {"value": 20, "source_url": "https://www.eeo.com.cn/2026/0407/830796.shtml", "source_name": "经济观察网（引述招股书，约数）"},
+        "cornerstone_investors": {"value": ["广发基金", "华泰资本"], "source_url": "https://finance.sina.com.cn/stock/hkstock/ggscyd/2026-06-30/doc-inifczzy1734396.shtml", "source_name": "新浪财经（部分名单）"}
       }
     },
     {
       "stock_code": "00537", "company_name": "普源精电科技股份有限公司",
       "source_url": "https://www.etnet.com.hk/www/tc/stocks/ipo-info.php?code=537",
+      "prospectus_url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0630/2026063000059_c.htm",
       "source_name": "etnet 招股资讯（据招股文件整理）", "fetched_at": "2026-06-30T18:00:00+08:00",
       "verified_fields": {
         "offer_start_date": "2026-06-30", "offer_end_date": "2026-07-06", "allotment_result_date": "2026-07-08", "listing_date": "2026-07-09",
         "offer_price_high": 45.98, "offer_price_range": "最高HK$45.98", "board_lot": 100, "entry_fee_hkd": 4644.37,
-        "offer_size_hkd": 1041000000, "sector": "电子仪器", "business_description": "提供数字示波器、射频、直流精密及模块化电子测量仪器和解决方案。"
+        "offer_size_hkd": 1041000000, "sector": "电子仪器", "business_description": "提供数字示波器、射频、直流精密及模块化电子测量仪器和解决方案。",
+        "financial_period": {"value": "FY2025", "source_url": "https://finance.sina.com.cn/stock/aigc/ggxg/zgs/2026-04-02/doc-inhtcnfv4295744.shtml", "source_name": "新浪财经（引述招股书）"},
+        "financial_currency": {"value": "RMB", "source_url": "https://finance.sina.com.cn/stock/aigc/ggxg/zgs/2026-04-02/doc-inhtcnfv4295744.shtml", "source_name": "新浪财经（引述招股书）"},
+        "revenue": {"value": 900000000, "source_url": "https://finance.sina.com.cn/stock/aigc/ggxg/zgs/2026-04-02/doc-inhtcnfv4295744.shtml", "source_name": "新浪财经（引述招股书）"},
+        "net_profit": {"value": 86000000, "source_url": "https://finance.sina.com.cn/stock/aigc/ggxg/zgs/2026-04-02/doc-inhtcnfv4295744.shtml", "source_name": "新浪财经（引述招股书）"},
+        "net_margin_pct": {"value": 9.56, "source_url": "https://finance.sina.com.cn/stock/aigc/ggxg/zgs/2026-04-02/doc-inhtcnfv4295744.shtml", "source_name": "按招股书数据计算"},
+        "gross_margin_latest": {"value": 52.8, "source_url": "https://finance.sina.com.cn/stock/aigc/ggxg/zgs/2026-04-02/doc-inhtcnfv4295744.shtml", "source_name": "新浪财经（引述招股书）"}
       }
     },
     {
       "stock_code": "06951", "company_name": "潮州三环（集团）股份有限公司",
       "source_url": "https://www.etnet.com.hk/www/tc/stocks/ipo-info.php?code=6951",
+      "prospectus_url": "https://www.hkexnews.hk/listedco/listconews/sehk/2026/0630/2026063000325_c.htm",
       "source_name": "etnet 招股资讯（据招股文件整理）", "fetched_at": "2026-06-30T18:00:00+08:00",
       "verified_fields": {
         "offer_start_date": "2026-06-30", "offer_end_date": "2026-07-06", "allotment_result_date": "2026-07-08", "listing_date": "2026-07-09",
         "offer_price_high": 100.30, "offer_price_range": "最高HK$100.30", "board_lot": 100, "entry_fee_hkd": 10131.16,
-        "offer_size_hkd": 7046000000, "sector": "电子元件", "business_description": "聚焦电子陶瓷材料和零部件，产品覆盖通信、AI数据中心、汽车及半导体等领域。"
+        "offer_size_hkd": 7046000000, "sector": "电子元件", "business_description": "聚焦电子陶瓷材料和零部件，产品覆盖通信、AI数据中心、汽车及半导体等领域。",
+        "greenshoe": {"value": true, "source_url": "https://www.etnet.com.hk/www/tc/news/news-article.php?category=ipo&newsid=20260630165&section=categorized", "source_name": "经济通（引述招股书）"},
+        "cornerstone_count": {"value": 17, "source_url": "https://www.etnet.com.hk/www/tc/news/news-article.php?category=ipo&newsid=20260630165&section=categorized", "source_name": "经济通（引述招股书）"},
+        "cornerstone_amount_hkd": {"value": 3566000000, "source_url": "https://www.etnet.com.hk/www/tc/news/news-article.php?category=ipo&newsid=20260630165&section=categorized", "source_name": "经济通（引述招股书）"},
+        "cornerstone_investors": {"value": ["淡马锡", "阿里巴巴投资", "腾讯黄河投资", "宏利", "工银理财", "泰康人寿"], "source_url": "https://www.etnet.com.hk/www/tc/news/news-article.php?category=ipo&newsid=20260630165&section=categorized", "source_name": "经济通（部分名单）"}
       }
     },
     {
       "stock_code": "01770", "company_name": "浙江东方科脉电子股份有限公司",
       "source_url": "https://www.etnet.com.hk/www/tc/stocks/ipo-info.php?code=1770",
+      "prospectus_url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0629/2026062900105_c.htm",
       "source_name": "etnet 招股资讯（据招股文件整理）", "fetched_at": "2026-06-30T18:00:00+08:00",
       "verified_fields": {
         "offer_start_date": "2026-06-29", "offer_end_date": "2026-07-03", "allotment_result_date": "2026-07-07", "listing_date": "2026-07-08",
         "offer_price_low": 78.64, "offer_price_high": 101.11, "offer_price_range": "HK$78.64-HK$101.11", "board_lot": 50, "entry_fee_hkd": 5106.50,
-        "offer_size_hkd": 410000000, "sector": "电子纸", "business_description": "研发、生产和销售电子纸显示模组，应用于智慧零售、办公、教育及物流。"
+        "offer_size_hkd": 410000000, "sector": "电子纸", "business_description": "研发、生产和销售电子纸显示模组，应用于智慧零售、办公、教育及物流。",
+        "financial_period": {"value": "FY2025", "source_url": "https://finance.sina.com.cn/wm/2026-06-23/doc-iniekeey2088967.shtml?froms=ggmp", "source_name": "新浪财经（引述招股书）"},
+        "financial_currency": {"value": "RMB", "source_url": "https://finance.sina.com.cn/wm/2026-06-23/doc-iniekeey2088967.shtml?froms=ggmp", "source_name": "新浪财经（引述招股书）"},
+        "revenue": {"value": 1713000000, "source_url": "https://finance.sina.com.cn/wm/2026-06-23/doc-iniekeey2088967.shtml?froms=ggmp", "source_name": "新浪财经（引述招股书）"},
+        "revenue_growth_pct": {"value": 48.7, "source_url": "https://finance.sina.com.cn/wm/2026-06-23/doc-iniekeey2088967.shtml?froms=ggmp", "source_name": "按招股书数据计算"},
+        "net_profit": {"value": 80230000, "source_url": "https://finance.sina.com.cn/wm/2026-06-23/doc-iniekeey2088967.shtml?froms=ggmp", "source_name": "新浪财经（引述招股书）"},
+        "net_margin_pct": {"value": 4.7, "source_url": "https://finance.sina.com.cn/wm/2026-06-23/doc-iniekeey2088967.shtml?froms=ggmp", "source_name": "新浪财经（引述招股书）"},
+        "gross_margin_latest": {"value": 16.4, "source_url": "https://finance.ifeng.com/c/8uM5mrzNC0r", "source_name": "凤凰财经（引述招股书）"},
+        "greenshoe": {"value": true, "source_url": "https://www.hkexnews.hk/listedco/listconews/sehk/2026/0629/2026062900100_c.pdf", "source_name": "HKEXnews 招股章程"}
       }
     },
     {
       "stock_code": "06880", "company_name": "MOMENTA GLOBAL LIMITED - W",
+      "risk_tags": ["持续亏损"],
       "source_url": "https://www.etnet.com.hk/www/tc/stocks/ipo-info.php?code=6880",
+      "prospectus_url": "https://www.hkexnews.hk/listedco/listconews/sehk/2026/0629/2026062900228.htm",
       "source_name": "etnet 招股资讯（据招股文件整理）", "fetched_at": "2026-06-30T18:00:00+08:00",
       "verified_fields": {
         "offer_start_date": "2026-06-29", "offer_end_date": "2026-07-03", "allotment_result_date": "2026-07-07", "listing_date": "2026-07-08",
         "offer_price_low": 295.60, "offer_price_high": 295.60, "offer_price_range": "HK$295.60", "board_lot": 20, "entry_fee_hkd": 5971.62,
-        "offer_size_hkd": 5893800000, "sector": "AI", "business_description": "自动驾驶技术与解决方案公司。"
+        "offer_size_hkd": 5893800000, "sector": "AI", "business_description": "自动驾驶技术与解决方案公司。",
+        "financial_period": {"value": "FY2025", "source_url": "https://m.sohu.com/a/1043114543_122143", "source_name": "搜狐汽车（引述招股书）"},
+        "financial_currency": {"value": "RMB", "source_url": "https://m.sohu.com/a/1043114543_122143", "source_name": "搜狐汽车（引述招股书）"},
+        "revenue": {"value": 2413000000, "source_url": "https://www.sl886.com/stock/06880", "source_name": "公开招股资料汇总（引述招股书）"},
+        "adjusted_net_profit": {"value": -303000000, "source_url": "https://m.sohu.com/a/1043114543_122143", "source_name": "搜狐汽车（引述招股书）"},
+        "gross_margin_latest": {"value": 71.6, "source_url": "https://m.sohu.com/a/1043114543_122143", "source_name": "搜狐汽车（引述招股书）"},
+        "greenshoe": {"value": true, "source_url": "https://www.sl886.com/stock/06880", "source_name": "公开招股资料汇总（引述招股书）"},
+        "cornerstone_count": {"value": 14, "source_url": "https://www.pcauto.com.cn/news/5160/51603934.html", "source_name": "太平洋汽车（引述招股书）"},
+        "cornerstone_amount_hkd": {"value": 3000000000, "source_url": "https://m.sohu.com/a/1043114543_122143", "source_name": "搜狐汽车（引述招股书，约数）"},
+        "cornerstone_investors": {"value": ["GIC", "富达国际", "贝莱德", "梅赛德斯-奔驰", "比亚迪"], "source_url": "https://m.sohu.com/a/1043114543_122143", "source_name": "搜狐汽车（部分名单）"}
       }
     },
     {
       "stock_code": "07656", "company_name": "厦门瑞为信息技术股份有限公司",
       "source_url": "https://www.etnet.com.hk/www/tc/stocks/ipo-info.php?code=7656",
+      "prospectus_url": "https://www.hkexnews.hk/listedco/listconews/sehk/2026/0629/2026062900319_c.htm",
       "source_name": "etnet 招股资讯（据招股文件整理）", "fetched_at": "2026-06-30T18:00:00+08:00",
       "verified_fields": {
         "offer_start_date": "2026-06-29", "offer_end_date": "2026-07-03", "allotment_result_date": "2026-07-07", "listing_date": "2026-07-08",
         "offer_price_low": 21.66, "offer_price_high": 21.66, "offer_price_range": "HK$21.66", "board_lot": 200, "entry_fee_hkd": 4375.69,
-        "offer_size_hkd": 608400000, "sector": "AI", "business_description": "面向企业客户提供视觉智能技术及产品，应用于民航、商业空间和安全驾驶。"
+        "offer_size_hkd": 608400000, "sector": "AI", "business_description": "面向企业客户提供视觉智能技术及产品，应用于民航、商业空间和安全驾驶。",
+        "financial_period": {"value": "FY2025", "source_url": "https://finance.sina.com.cn/tech/csj/2026-06-29/doc-inifaisu2229815.shtml", "source_name": "新浪科技（引述招股书）"},
+        "financial_currency": {"value": "RMB", "source_url": "https://finance.sina.com.cn/tech/csj/2026-06-29/doc-inifaisu2229815.shtml", "source_name": "新浪科技（引述招股书）"},
+        "revenue": {"value": 443000000, "source_url": "https://finance.sina.com.cn/tech/csj/2026-06-29/doc-inifaisu2229815.shtml", "source_name": "新浪科技（引述招股书）"},
+        "revenue_growth_pct": {"value": 12.15, "source_url": "https://finance.sina.com.cn/tech/csj/2026-06-29/doc-inifaisu2229815.shtml", "source_name": "按招股书数据计算"},
+        "gross_margin_latest": {"value": 37.7, "source_url": "https://finance.sina.com.cn/tech/csj/2026-06-29/doc-inifaisu2229815.shtml", "source_name": "新浪科技（引述招股书）"},
+        "public_offer_ratio": {"value": 5, "source_url": "https://www.finet.hk/newscenter/news_content/6a421a2023082947fa9dc989", "source_name": "财华社（引述招股书）"},
+        "greenshoe": {"value": false, "source_url": "https://www.finet.hk/newscenter/news_content/6a421a2023082947fa9dc989", "source_name": "财华社（引述招股书）"},
+        "cornerstone_count": {"value": 0, "source_url": "https://finance.sina.com.cn/tech/csj/2026-06-29/doc-inifaisu2229815.shtml", "source_name": "新浪科技（引述招股书）"},
+        "cornerstone_investors": {"value": "无", "source_url": "https://finance.sina.com.cn/tech/csj/2026-06-29/doc-inifaisu2229815.shtml", "source_name": "新浪科技（引述招股书）"},
+        "cornerstone_ratio": {"value": 0, "source_url": "https://finance.sina.com.cn/tech/csj/2026-06-29/doc-inifaisu2229815.shtml", "source_name": "新浪科技（引述招股书）"}
       }
     },
     {
       "stock_code": "07687", "company_name": "易控智驾科技股份有限公司",
+      "risk_tags": ["持续亏损"],
       "source_url": "https://www.etnet.com.hk/www/tc/stocks/ipo-info.php?code=7687",
+      "prospectus_url": "https://www.hkexnews.hk/listedco/listconews/sehk/2026/0629/2026062900287_c.htm",
       "source_name": "etnet 招股资讯（据招股文件整理）", "fetched_at": "2026-06-30T18:00:00+08:00",
       "verified_fields": {
         "offer_start_date": "2026-06-29", "offer_end_date": "2026-07-03", "allotment_result_date": "2026-07-07", "listing_date": "2026-07-08",
         "offer_price_low": 81.16, "offer_price_high": 87.92, "offer_price_range": "HK$81.16-HK$87.92", "board_lot": 50, "entry_fee_hkd": 4440.34,
-        "offer_size_hkd": 2072000000, "sector": "AI", "business_description": "提供露天矿区无人驾驶矿卡及矿区数字化解决方案。"
+        "offer_size_hkd": 2072000000, "sector": "AI", "business_description": "提供露天矿区无人驾驶矿卡及矿区数字化解决方案。",
+        "financial_period": {"value": "FY2025", "source_url": "https://finance.sina.com.cn/wm/2026-06-29/doc-iniezxcc0315552.shtml", "source_name": "新浪财经（引述招股书）"},
+        "financial_currency": {"value": "RMB", "source_url": "https://finance.sina.com.cn/wm/2026-06-29/doc-iniezxcc0315552.shtml", "source_name": "新浪财经（引述招股书）"},
+        "revenue": {"value": 1435000000, "source_url": "https://finance.sina.com.cn/wm/2026-06-29/doc-iniezxcc0315552.shtml", "source_name": "新浪财经（引述招股书）"},
+        "revenue_growth_pct": {"value": 45.54, "source_url": "https://finance.sina.com.cn/wm/2026-06-29/doc-iniezxcc0315552.shtml", "source_name": "按招股书数据计算"},
+        "net_profit": {"value": -515000000, "source_url": "https://finance.sina.com.cn/wm/2026-06-29/doc-iniezxcc0315552.shtml", "source_name": "新浪财经（引述招股书）"},
+        "net_margin_pct": {"value": -35.9, "source_url": "https://finance.sina.com.cn/wm/2026-06-26/doc-inieszry5213097.shtml", "source_name": "新浪财经（引述招股书）"},
+        "gross_margin_latest": {"value": 10.1, "source_url": "https://finance.sina.com.cn/wm/2026-06-29/doc-iniezxcc0315552.shtml", "source_name": "按招股书毛利及收入计算"},
+        "operating_cash_flow": {"value": -394400000, "source_url": "https://360storage.hkej.com/ipo/07687.pdf", "source_name": "信报招股书镜像"}
       }
     },
     {
       "stock_code": "08090", "company_name": "山东宝盖新材料科技股份有限公司",
       "source_url": "https://www.etnet.com.hk/www/tc/stocks/ipo-info.php?code=8090",
+      "prospectus_url": "https://www.hkexnews.hk/listedco/listconews/gem/2026/0629/2026062900032_c.pdf",
       "source_name": "etnet 招股资讯（据招股文件整理）", "fetched_at": "2026-06-30T18:00:00+08:00",
       "verified_fields": {
         "offer_start_date": "2026-06-29", "offer_end_date": "2026-07-03", "allotment_result_date": "2026-07-07", "listing_date": "2026-07-08",
         "offer_price_low": 6.15, "offer_price_high": 8.51, "offer_price_range": "HK$6.15-HK$8.51", "board_lot": 500, "entry_fee_hkd": 4297.91,
-        "offer_size_hkd": 84300000, "sector": "建筑材料", "business_description": "生产主要用于工程和基础设施的复合材料沟盖板产品。"
+        "offer_size_hkd": 84300000, "sector": "建筑材料", "business_description": "生产主要用于工程和基础设施的复合材料沟盖板产品。",
+        "financial_period": {"value": "FY2025", "source_url": "https://finance.sina.com.cn/stock/hkstock/ggscyd/2026-04-10/doc-inhtywcw1332455.shtml", "source_name": "新浪财经（引述招股书）"},
+        "financial_currency": {"value": "RMB", "source_url": "https://finance.sina.com.cn/stock/hkstock/ggscyd/2026-04-10/doc-inhtywcw1332455.shtml", "source_name": "新浪财经（引述招股书）"},
+        "revenue": {"value": 144000000, "source_url": "https://finance.sina.com.cn/stock/hkstock/ggscyd/2026-04-10/doc-inhtywcw1332455.shtml", "source_name": "新浪财经（引述招股书）"},
+        "revenue_growth_pct": {"value": 9.92, "source_url": "https://finance.sina.com.cn/stock/hkstock/ggscyd/2026-04-10/doc-inhtywcw1332455.shtml", "source_name": "按招股书数据计算"},
+        "net_profit": {"value": 24000000, "source_url": "https://finance.sina.com.cn/stock/hkstock/ggscyd/2026-04-10/doc-inhtywcw1332455.shtml", "source_name": "新浪财经（引述招股书）"},
+        "net_margin_pct": {"value": 16.67, "source_url": "https://finance.sina.com.cn/stock/hkstock/ggscyd/2026-04-10/doc-inhtywcw1332455.shtml", "source_name": "按招股书数据计算"},
+        "gross_margin_latest": {"value": 38.2, "source_url": "https://finance.sina.com.cn/stock/hkstock/ggscyd/2026-04-10/doc-inhtywcw1332455.shtml", "source_name": "新浪财经（引述招股书）"},
+        "greenshoe": {"value": false, "source_url": "https://www.hkexnews.hk/listedco/listconews/gem/2026/0629/2026062900032_c.pdf", "source_name": "HKEXnews 招股章程（发售量调整权）"}
       }
     },
     {
       "stock_code": "09971", "company_name": "深圳基本半导体股份有限公司",
+      "risk_tags": ["持续亏损"],
       "source_url": "https://www.etnet.com.hk/www/tc/stocks/ipo-info.php?code=9971",
+      "prospectus_url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0629/2026062900261_c.htm",
       "source_name": "etnet 招股资讯（据招股文件整理）", "fetched_at": "2026-06-30T18:00:00+08:00",
       "verified_fields": {
         "offer_start_date": "2026-06-29", "offer_end_date": "2026-07-03", "allotment_result_date": "2026-07-07", "listing_date": "2026-07-08",
         "offer_price_low": 27.49, "offer_price_high": 31.62, "offer_price_range": "HK$27.49-HK$31.62", "board_lot": 200, "entry_fee_hkd": 6387.78,
-        "offer_size_hkd": 713000000, "sector": "半导体", "business_description": "研发、制造及销售车规级和工业级碳化硅功率模块、分立器件及栅极驱动。"
+        "offer_size_hkd": 713000000, "sector": "半导体", "business_description": "研发、制造及销售车规级和工业级碳化硅功率模块、分立器件及栅极驱动。",
+        "financial_period": {"value": "FY2025", "source_url": "https://wap.seccw.com/document/detail/id/46526.html", "source_name": "证券市场周刊（引述招股书）"},
+        "financial_currency": {"value": "RMB", "source_url": "https://wap.seccw.com/document/detail/id/46526.html", "source_name": "证券市场周刊（引述招股书）"},
+        "revenue": {"value": 311000000, "source_url": "https://wap.seccw.com/document/detail/id/46526.html", "source_name": "证券市场周刊（引述招股书）"},
+        "revenue_growth_pct": {"value": 4.01, "source_url": "https://wap.seccw.com/document/detail/id/46526.html", "source_name": "按招股书数据计算"},
+        "net_profit": {"value": -335000000, "source_url": "https://wap.seccw.com/document/detail/id/46526.html", "source_name": "证券市场周刊（引述招股书）"},
+        "net_margin_pct": {"value": -107.72, "source_url": "https://wap.seccw.com/document/detail/id/46526.html", "source_name": "按招股书数据计算"},
+        "gross_margin_latest": {"value": -10.9, "source_url": "https://www.laohu8.com/stock/09971", "source_name": "老虎社区招股资料汇总"},
+        "greenshoe": {"value": true, "source_url": "https://www.laohu8.com/stock/09971", "source_name": "老虎社区招股资料汇总"},
+        "cornerstone_count": {"value": 0, "source_url": "https://www.laohu8.com/stock/09971", "source_name": "老虎社区招股资料汇总"},
+        "cornerstone_investors": {"value": "无", "source_url": "https://www.laohu8.com/stock/09971", "source_name": "老虎社区招股资料汇总"},
+        "cornerstone_ratio": {"value": 0, "source_url": "https://www.laohu8.com/stock/09971", "source_name": "老虎社区招股资料汇总"}
       }
     },
     {
       "stock_code": "02667", "company_name": "北京同仁堂医养投资股份有限公司",
       "source_url": "https://www.etnet.com.hk/www/tc/stocks/ipo-info.php?code=2667",
+      "prospectus_url": "https://www.hkexnews.hk/listedco/listconews/sehk/2026/0626/2026062600061_c.htm",
       "source_name": "etnet 招股资讯（据招股文件整理）", "fetched_at": "2026-06-30T18:00:00+08:00",
       "verified_fields": {
         "offer_start_date": "2026-06-26", "offer_end_date": "2026-07-02", "allotment_result_date": "2026-07-06", "listing_date": "2026-07-07",
         "offer_price_low": 5.48, "offer_price_high": 6.21, "offer_price_range": "HK$5.48-HK$6.21", "board_lot": 500, "entry_fee_hkd": 3136.31,
-        "offer_size_hkd": 562000000, "sector": "医疗保健", "business_description": "提供中医药特色医疗与养老相关服务。"
+        "offer_size_hkd": 562000000, "sector": "医疗保健", "business_description": "提供中医药特色医疗与养老相关服务。",
+        "financial_period": {"value": "FY2025", "source_url": "https://caifuhao.eastmoney.com/news/20260628101443508997160", "source_name": "东方财富招股分析（引述招股书）"},
+        "financial_currency": {"value": "RMB", "source_url": "https://caifuhao.eastmoney.com/news/20260628101443508997160", "source_name": "东方财富招股分析（引述招股书）"},
+        "revenue": {"value": 1171000000, "source_url": "https://caifuhao.eastmoney.com/news/20260628101443508997160", "source_name": "东方财富招股分析（引述招股书）"},
+        "revenue_growth_pct": {"value": -0.34, "source_url": "https://caifuhao.eastmoney.com/news/20260628101443508997160", "source_name": "按招股书数据计算"},
+        "net_profit": {"value": 33750000, "source_url": "https://caifuhao.eastmoney.com/news/20260628101443508997160", "source_name": "东方财富招股分析（引述招股书）"},
+        "net_margin_pct": {"value": 2.9, "source_url": "https://caifuhao.eastmoney.com/news/20260628101443508997160", "source_name": "东方财富招股分析（引述招股书）"},
+        "gross_margin_latest": {"value": 18.9, "source_url": "https://caifuhao.eastmoney.com/news/20260628101443508997160", "source_name": "东方财富招股分析（引述招股书）"}
       }
     }
   ]
