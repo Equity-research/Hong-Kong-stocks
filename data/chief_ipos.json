@@ -1,0 +1,155 @@
+[
+  {
+    "name": "2523永康控股",
+    "price": "2.20 - 2.68",
+    "lot_size": "2000",
+    "deadline": "2026-07-08 10:30",
+    "list_date": "2026-07-13",
+    "detail_url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0630/2026063000028_c.pdf",
+    "sub_url": "https://chiefeasy.chiefgroup.com.hk/"
+  },
+  {
+    "name": "2249晶合集成",
+    "price": "30.00 - 32.30",
+    "lot_size": "100",
+    "deadline": "2026-07-07 10:00",
+    "list_date": "2026-07-10",
+    "detail_url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0630/2026063000124_c.pdf",
+    "sub_url": "https://chiefeasy.chiefgroup.com.hk/"
+  },
+  {
+    "name": "6745滨化集团",
+    "price": "3.05 - 3.59",
+    "lot_size": "1000",
+    "deadline": "2026-07-07 10:30",
+    "list_date": "2026-07-10",
+    "detail_url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0630/2026063000102_c.pdf",
+    "sub_url": "https://chiefeasy.chiefgroup.com.hk/"
+  },
+  {
+    "name": "6951三环集团",
+    "price": "100.30 - 100.30",
+    "lot_size": "100",
+    "deadline": "2026-07-06 10:00",
+    "list_date": "2026-07-09",
+    "detail_url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0630/2026063000324_c.pdf",
+    "sub_url": "https://chiefeasy.chiefgroup.com.hk/"
+  },
+  {
+    "name": "3752珞石机器人",
+    "price": "38.00 - 38.00",
+    "lot_size": "100",
+    "deadline": "2026-07-06 10:30",
+    "list_date": "2026-07-09",
+    "detail_url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0630/2026063000034_c.pdf",
+    "sub_url": "https://chiefeasy.chiefgroup.com.hk/"
+  },
+  {
+    "name": "2475立讯精密",
+    "price": "63.28 - 63.28",
+    "lot_size": "100",
+    "deadline": "2026-07-06 10:00",
+    "list_date": "2026-07-09",
+    "detail_url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0630/2026063000098_c.pdf",
+    "sub_url": "https://chiefeasy.chiefgroup.com.hk/"
+  },
+  {
+    "name": "2797齐云山食品",
+    "price": "5.00 - 8.00",
+    "lot_size": "500",
+    "deadline": "2026-07-06 10:30",
+    "list_date": "2026-07-09",
+    "detail_url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0630/2026063000056_c.pdf",
+    "sub_url": "https://chiefeasy.chiefgroup.com.hk/"
+  },
+  {
+    "name": "1377鼎泰高科",
+    "price": "380.00 - 380.00",
+    "lot_size": "100",
+    "deadline": "2026-07-06 10:00",
+    "list_date": "2026-07-09",
+    "detail_url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0630/2026063000042_c.pdf",
+    "sub_url": "https://chiefeasy.chiefgroup.com.hk/"
+  },
+  {
+    "name": "537普源精电",
+    "price": "45.98 - 45.98",
+    "lot_size": "100",
+    "deadline": "2026-07-09 10:30",
+    "list_date": "2026-07-09",
+    "detail_url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0630/2026063000024_c.pdf",
+    "sub_url": "https://chiefeasy.chiefgroup.com.hk/"
+  },
+  {
+    "name": "1770东方科脉",
+    "price": "78.64 - 101.11",
+    "lot_size": "50",
+    "deadline": "2026-07-03 10:00",
+    "list_date": "2026-07-08",
+    "detail_url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0629/2026062900102_c.pdf",
+    "sub_url": "https://chiefeasy.chiefgroup.com.hk/"
+  },
+  {
+    "name": "6880MOMENTA-W",
+    "price": "295.60 - 295.60",
+    "lot_size": "20",
+    "deadline": "2026-07-03 10:00",
+    "list_date": "2026-07-08",
+    "detail_url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0629/2026062900058_c.pdf",
+    "sub_url": "https://chiefeasy.chiefgroup.com.hk/"
+  },
+  {
+    "name": "7656瑞为技术",
+    "price": "21.66 - 21.66",
+    "lot_size": "200",
+    "deadline": "2026-07-03 10:30",
+    "list_date": "2026-07-08",
+    "detail_url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0629/2026062900146_c.pdf",
+    "sub_url": "https://chiefeasy.chiefgroup.com.hk/"
+  },
+  {
+    "name": "7687易控智驾",
+    "price": "81.16 - 87.92",
+    "lot_size": "50",
+    "deadline": "2026-07-03 10:00",
+    "list_date": "2026-07-08",
+    "detail_url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0629/2026062900136_c.pdf",
+    "sub_url": "https://chiefeasy.chiefgroup.com.hk/"
+  },
+  {
+    "name": "8090宝盖新材",
+    "price": "6.15 - 8.51",
+    "lot_size": "500",
+    "deadline": "2026-07-03 10:00",
+    "list_date": "2026-07-08",
+    "detail_url": "https://www1.hkexnews.hk/listedco/listconews/gem/2026/0629/2026062900044_c.pdf",
+    "sub_url": "https://chiefeasy.chiefgroup.com.hk/"
+  },
+  {
+    "name": "9971基本半导体",
+    "price": "27.49 - 31.62",
+    "lot_size": "200",
+    "deadline": "2026-07-03 10:30",
+    "list_date": "2026-07-08",
+    "detail_url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0629/2026062900050_c.pdf",
+    "sub_url": "https://chiefeasy.chiefgroup.com.hk/"
+  },
+  {
+    "name": "2667同仁堂医养",
+    "price": "5.48 - 6.21",
+    "lot_size": "500",
+    "deadline": "2026-07-02 10:30",
+    "list_date": "2026-07-07",
+    "detail_url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0626/2026062600022_c.pdf",
+    "sub_url": "https://chiefeasy.chiefgroup.com.hk/"
+  },
+  {
+    "name": "668安克创新",
+    "price": "99.32 - 99.32",
+    "lot_size": "100",
+    "deadline": "2026-06-26 10:30",
+    "list_date": "2026-07-02",
+    "detail_url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0623/2026062300038_c.pdf",
+    "sub_url": ""
+  }
+]
