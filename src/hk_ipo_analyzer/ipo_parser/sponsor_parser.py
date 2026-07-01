@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import logging
 import re
@@ -25,10 +25,10 @@ class SponsorParser:
         source = "HKEX 招股书"
         names = self._extract_names(text)
         if names:
-            record.set_field("sponsors", names, source_url, source)
+            record.set_field("sponsors", names, source_url, source, source_tier="A")
         if not record.value("sponsor_quality_score"):
             score = self._score(names)
-            record.set_field("sponsor_quality_score", score, source_url, source + "（启发式评估）")
+            record.set_field("sponsor_quality_score", score, source_url, source + "（启发式评估）", source_tier="C")
 
     @staticmethod
     def _extract_names(text: str) -> list[str]:

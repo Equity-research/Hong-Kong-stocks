@@ -3,8 +3,6 @@
 import logging
 import re
 import json
-from typing import Any
-
 from bs4 import BeautifulSoup
 
 from hk_ipo_analyzer.ipo_fetcher.http_client import PoliteHttpClient

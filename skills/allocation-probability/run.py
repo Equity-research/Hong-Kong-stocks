@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """allocation-probability Skill: 中签率估算
 
 基于超购倍数历史数据拟合中签率。保守估算，不保证准确性。
@@ -40,8 +40,8 @@ def load_data(db_path: Path, analysis_date: str, stock_code: str | None = None) 
 
 def estimate_allocation(oversubscription: float | None, public_ratio: float | None) -> dict:
     """保守中签率估算 - 基于历史港股 IPO 中签率分布"""
-    if oversubscription is None:
-        return {"a_head": None, "a_tail": None, "confidence": "低"}
+    if oversubscription is None or public_ratio is None:
+        return {"a_head": None, "a_tail": None, "confidence": "不可估算"}
 
     over = oversubscription
     ratio = public_ratio or 10
@@ -78,7 +78,7 @@ def analyze(ipo_data: list[dict]) -> str:
     ]
 
     for item in ipo_data:
-        over = item["actual_over"] or item["expected_over"] or item["margin_multiple"]
+        over = item["actual_over"] or item["expected_over"]
         alloc = estimate_allocation(over, item["public_ratio"])
         over_str = f"{over:.0f}x" if over else "缺失"
         ratio_str = f"{item['public_ratio']:.0f}%" if item["public_ratio"] else "缺失"
@@ -94,7 +94,7 @@ def analyze(ipo_data: list[dict]) -> str:
         "",
         "## 中签率估算方法",
         "",
-        "- 基于港股历史 IPO 中签率与超购倍数的拟合曲线保守估算。",
+        "- 仅在已有超购倍数及公开发售比例时输出区间估算；孖展倍数不冒充超购倍数。",
         "- A 组（小额申购）和 B 组（大额申购）有不同分配机制。",
         "- 回拨机制会影响实际公开认购份额：超购倍数越高，公开发售占比越大。",
         "- A组头 = 申购一手中签概率；A组尾 = 申购最高额度中签概率。",

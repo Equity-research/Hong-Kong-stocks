@@ -31,6 +31,7 @@ def test_load_compact_verified_input(tmp_path):
     path.write_text(json.dumps({"records": [{
         "stock_code": "1",
         "company_name": "核验公司",
+        "risk_tags": ["持续亏损"],
         "source_url": "https://example.test/source",
         "source_name": "核验来源",
         "verified_fields": {"offer_start_date": "2026-06-30", "board_lot": 100},
@@ -41,3 +42,41 @@ def test_load_compact_verified_input(tmp_path):
     assert record.stock_code == "0001"
     assert record.value("board_lot") == 100
     assert record.fields["board_lot"].source_name == "核验来源"
+    assert record.risk_tags == ["持续亏损"]
+
+
+def test_load_compact_input_attaches_official_prospectus(tmp_path):
+    path = tmp_path / "input.json"
+    path.write_text(json.dumps({"records": [{
+        "stock_code": "02249",
+        "company_name": "晶合集成",
+        "prospectus_url": "https://www.hkexnews.hk/prospectus.htm",
+        "verified_fields": {"offer_start_date": "2026-06-30"},
+    }]}), encoding="utf-8")
+
+    record = DailyPipeline._load_input(path)[0]
+
+    assert record.documents[0]["document_type"] == "prospectus"
+    assert record.documents[0]["url"] == "https://www.hkexnews.hk/prospectus.htm"
+
+
+def test_load_compact_input_accepts_field_level_evidence(tmp_path):
+    path = tmp_path / "input.json"
+    path.write_text(json.dumps({"records": [{
+        "stock_code": "02249",
+        "company_name": "晶合集成",
+        "source_url": "https://example.test/common",
+        "verified_fields": {
+            "cornerstone_ratio": {
+                "value": 49.92,
+                "source_url": "https://example.test/cornerstone",
+                "source_name": "字段核验来源",
+            },
+        },
+    }]}), encoding="utf-8")
+
+    record = DailyPipeline._load_input(path)[0]
+
+    assert record.value("cornerstone_ratio") == 49.92
+    assert record.fields["cornerstone_ratio"].source_url.endswith("/cornerstone")
+    assert record.fields["cornerstone_ratio"].source_name == "字段核验来源"
